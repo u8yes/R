@@ -53,7 +53,7 @@ hist(Nile, freq = F) # Boolean형태로 F(alse), 곧 대문자로만 작성해�
 lines(density(Nile))
 
 # 히스토그램을 파일에 저장하기
-par(mfrow=c(4, 4)) # c - combine # plots창 영역에 1개 그래프만 표시하겠다
+par(mfrow=c(1, 1)) # c - combine # plots창 영역에 1개 그래프만 표시하겠다
 pdf("D:/heaven_dev/workspaces/R/output/batch.pdf")
 hist(rnorm(20)) # random하게 정규분포를 뽑아줘.
 dev.off()
@@ -93,8 +93,8 @@ boolean <- 3.14
 boolean
 
 # 자료형 확인
-is.numeric(int) # TRUE #정수, 실수냐? 묻기
-is.integer(int) # FALSE : 정수 값도 부동소숫점으로 관리.
+is.numeric(int) # TRUE #실수냐? 맞다면 TRUE - double()과 동일 
+is.integer(int) # FALSE : 정수 값도 부동소숫점으로 관리. 정수값이냐? 질문 20.0
 is.double(int) # TRUE
 
 as.integer(int) # 형변환을 시켜줌, 실수 -> 정수형
@@ -130,7 +130,7 @@ result
 z <- 5.3 - 3i
 Re(z) # 실수
 Im(z) # 허수
-is.complex(z) # TRUE
+is.complex(z) # TRUE # 복소수냐?
 as.complex(5.3) # 5.3+0i # 강제로 복소수로 형변환을 해줌.
 
 
@@ -150,30 +150,33 @@ plot(gender)
 
 # 요인형 변환
 # as.factor() 함수 이용 범주(요인)형 변환
-Ngender <- as.factor(gender)
+Ngender <- as.factor(gender) # 특정 변수에 담겨져있는 값들을 Domain, factor라고 한다.
 Ngender
-table(Ngender)
+table(Ngender) # 출력의 결과를 테이블 형태로 보여주는 것. 빈도수를
 
 # Factor형 변수로 차트 그리기
 plot(Ngender)
-mode(Ngender)
-class(Ngender)
-is.factor(Ngender)
+mode(Ngender) # "numeric"
+class(Ngender) # "factor"
+is.factor(Ngender) # TRUE
 
 # Factor Nominal 변수
 Ngender
 
 # factor() 함수 이용 Factor형 변환
+args(factor) # parameter매개변수 = argument인자 # parameter만 보고 싶을 때 args()사용 가능하다. # ?factor
+Ogender <- factor(gender, levels = c('woman','man'), labels = c("여자","남자"), ordered = T)
 
-
+Ogender
 
 # 순서 없는 요인과 순서 있는 요인형 변수로 차트 그리기
-
-
+par(mfrow=c(1,2))
+plot(Ngender)
+plot(Ogender)
 
 # 도움말 보기
 i <- sum(1, 2, 3)
-i
+i # 6
 
 help(sum)
 ?sum
@@ -185,8 +188,8 @@ args(sum)
 example(sum)
 
 # 작업 공간 지정
-
-
+getwd() # 현재 작업 위치
+setwd("D:/heaven_dev/workspaces/R/data")
 
 
 
