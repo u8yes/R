@@ -287,19 +287,22 @@ multi_list
 multi_list$c1
 multi_list$c2
 multi_list$c3
+mode(multi_list); class(multi_list)
 
 # 다차원 리스트를 열 단위로 바인딩
-d <- 
+d <- do.call(cbind, multi_list)
 d
+
+d <- do.call(rbind, multi_list)
+d
+
 class(d) # "matrix"
 
-
-
-## 5. Data Frame 자료 구조
+## 5. Data Frame 자료 구조 # 서로 다른 자료형으로 컬럼별로 가질 수 있다.
 
 # 벡터 이용 객체 생성
 no  <- c(1, 2, 3)
-name <- c("홍길동","이순신","강감찬")
+name <- c("베드로","요한","야고보")
 pay <- c(150,250,300)
 vemp <- data.frame(No=no,Name=name,Pay=pay)
 vemp
