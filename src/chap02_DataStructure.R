@@ -213,14 +213,21 @@ str(Bug_Metrics_Software)
 Bug_Metrics_Software # array 형태로 보여줌.
 
 
-## 4. List 자료 구조
+## 4. List 자료 구조 # 자바의 map개념과 같다
 
 # key를 이용하여 value에 접근하기
-member <- 
+member <- list(name=c("홍길동", "유관순"), 
+               age=c(35, 25),
+               address=c("제주도","천국"),
+               gender=c("남자","여자"),
+               htype=c("아파트","왕국")) # 변수에 접근할 때 자바는 '.'으로 접근하듯이 R은 key값으로 '$'로 접근한다.
 member
 
 # key를 이용하여 value에 접근하기
-
+member$name
+member$name[1]
+member$name[2]
+member$name[3] <- "이명박" # 데이터 추가 가능하다.
 
 
 # 1개 값을 갖는 리스트 객체 생성
