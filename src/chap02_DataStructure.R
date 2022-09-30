@@ -190,11 +190,15 @@ x
 
 # 3차원 배열 객체 생성하기
 vec <- c(1:12) # 12개 벡터 객체 생성
-arr <- 
+arr <- array(vec, c(3,2,2)) # 3차원일 때는 2개의 ,, 컴마가 있다. 
+# 3행 2열 2면 만들라
 arr
 
 # 3차원 배열 객체 자료 조회
-
+arr[2,1,2] # 2행1열2면
+arr[,,1] # 1면
+arr[,,2] # 2면
+arr[2,,1] # 1면2행
 
 # 배열 자료형과 자료 구조
 mode(arr); class(arr)
@@ -206,8 +210,7 @@ data(Bug_Metrics_Software)
 str(Bug_Metrics_Software)
 
 # 데이터 셋 자료보기
-Bug_Metrics_Software
-
+Bug_Metrics_Software # array 형태로 보여줌.
 
 
 ## 4. List 자료 구조
