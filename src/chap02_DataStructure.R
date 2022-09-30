@@ -170,19 +170,21 @@ x
 
 # Day 20; 20220930
 # 사용자 정의 적용
-f <- function(x){
-  
+f <- function(x){ # x : 매개변수
+  x * c(1,2,3)
 }
 
-# 행 우선 순서로 사용자 정의 함수 적용
+# 행(1) 우선 순서로 사용자 정의 함수 적용
+result <- apply(x, 1, f)
+result
 
-
-# 열 우선 순서로 사용자 정의 함수 적용
-
+# 열(2) 우선 순서로 사용자 정의 함수 적용
+result <- apply(x, 2, f)
+result
 
 # 행렬 객체에 컬럼명 지정하기
-
-
+colnames(x) <- c('one', 'two', 'three')
+x
 
 ## 3. Array 자료 구조
 
