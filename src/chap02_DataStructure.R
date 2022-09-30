@@ -229,42 +229,59 @@ member$name[1]
 member$name[2]
 member$name[3] <- "이명박" # 데이터 추가 가능하다.
 
+member$age <- 45 # 데이터 수정(※주의: 하나의 값으로 수정.)
+member
+
+member$id <- c("hong","yu") # 데이터 항목 추가
+member
+
+member$age <- NULL
+member
 
 # 1개 값을 갖는 리스트 객체 생성
-list <- 
+list <- list("lee","이명박",70)
 list
+"""
+[[1]]         ----------------------> key(생략) [[n]]
+[1] "lee"     ----------------------> value[n]
 
+[[2]]
+[1] "이명박"
 
+[[3]]
+[1] 70
+""" # """ 3개는 그 안의 모든 것을 문자열로 인식하게 만들어줌. error표시는 그냥 무시하면 된다.
 
 # 1개 이상의 값을 갖는 리스트 객체 생성
-num <- 
+num <- list(c(1:5), c(6:10))
 num
 
 # 리스트 자료구조 -> 벡터 구조로 변경하기
-unlist <- 
+unlist <- unlist(num) # 1차원의 배열로 형변환해줌.
 unlist
 
 # 리스트 객체에 함수 적용하기
 # list data 처리 함수
-a <- 
-b <- 
+a <- list(c(1:5))
+b <- list(c(6:10))
 a; b
 
 c(a,b)
 
-c <- 
+c <- lapply(c(a,b), max) # list로 결과 반환
 c
-mode(c); class(c)  # "list" "list"
 
-# 리스트 형식을 벡터 형식으로 반환하기
-c <- 
+mode(c); class(c)  # "list" "list" # key 중심으로 자료형을 보기 때문에 key로 접근해서 봐야 알 수 있다.
+
+# 리스트 형식을 벡터(1차원) 형식으로 반환하기
+c <- sapply(c(a,b), max)
 c
-mode(c); class(c) # "numeric" "integer"
+mode(c); class(c) # 자료형:"numeric", 자료구조:"integer"
 
 # 다차원 리스트 객체 생성
-multi_list <- 
+multi_list <- list(list(1,2,3), list(10,20,30), list(100,200,300))
 multi_list
-multi_list <- 
+multi_list <- list(c1=list(1,2,3), c2=list(10,20,30), c3=list(100,200,300))
 multi_list
 
 multi_list$c1
