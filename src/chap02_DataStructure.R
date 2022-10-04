@@ -309,20 +309,22 @@ vemp
 class(vemp) # "data.frame"
 
 # matrix 이용 객체 생성
-args()
-m <- 
+args(matrix) # 매개변수에 대한 inform을 보여준다. # function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL) # byrow 행우선
+m <- matrix(c(1,"베드로", 153, 
+              2,"다니엘", 777,
+              3,"성령", 888), 3, byrow = T) # 3행으로 셋팅, byrow 행 중심으로
 m
 class(m)
 
-memp <- 
+memp <- data.frame(m) # default이름으로 X1, X2, X3 임의로 붙어줌.
 memp
 class(memp)
 
 # txt 파일 이용 객체 생성
 getwd()
-setwd("C:/workspaces/Rwork/data")
+setwd("D:/heaven_dev/workspaces/R/data")
 
-txtemp <- 
+txtemp <- read.table('emp.txt', header = T, sep = "") # header = T 이름이 있다면 2번째로 이름을 보여준다.
 txtemp
 class(txtemp)
 
