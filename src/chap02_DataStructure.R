@@ -324,28 +324,28 @@ class(memp)
 getwd()
 setwd("D:/heaven_dev/workspaces/R/data")
 
-txtemp <- read.table('emp.txt', header = T, sep = "") # header = T 이름이 있다면 2번째로 이름을 보여준다.
+txtemp <- read.table('emp.txt', header = T, sep = "") # header = T 이름이 있다면 col.names에 이름을 보여준다. HTML <th> 때 header같은 느낌
 txtemp
 class(txtemp)
 
 
 # csv 파일 이용 객체 생성(header=T)
-csvtemp 
+csvtemp <- read.csv('emp.csv', header = T)
 csvtemp; class(csvtemp)
 
 
 # csv 파일 이용 객체 생성(header=F)
 name <- c("사번", "이름", "급여")
-csvtemp2 <- 
+csvtemp2 <- read.csv('emp2.csv', header = F, col.names = name) # col.names에 name변수를 넣어주면 됨
 csvtemp2
 
 
 # 데이터프레임 만들기
-df <- 
+df <- data.frame(x=c(1:5),y=seq(2,10,2), z=c('a', 'b', 'c', 'd', 'e')) # seq(시작, 끝, 2개씩 더해줌)
 df
 
 # 데이터프레임 컬럼명 참조
-df$x
+df$x; df$y; df$z
 
 # 자료구조, 열수, 행수, 컬럼명 보기
 str(df)
