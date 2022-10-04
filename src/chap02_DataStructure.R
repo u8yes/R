@@ -354,12 +354,14 @@ nrow(df)
 df[c(2:3)]
 
 # 요약 통계량 보기
-summary(df)
+summary(df) # 수치형의 값에서 필요
 
 # 데이터프레임 자료에 함수 적용
-apply(df[,c(1,2)], 2, sum)
+apply(df[,c(1,2)], 2, sum) # 데이터, 행(1)·열(2), 함수를 수행
+# lapply는 리스트로, sapply는 vector형태로 쭉 펼쳐서 처리.
 
-# 데이터프레임의 부분 객체 만들기
+# 데이터프레임의 부분 객체 만들기 # 전처리에서 가장 많이 사용하는 함수
+# 내가 원하는 데이터를 필터하는 용도도
 x1 <- subset(df, x >= 3) # x가 3이상인 레코드 대상
 x1
 
@@ -367,7 +369,7 @@ y1 <- subset(df, y <= 8) # y가 8이하인 레코드 대상
 y1
 
 # 두 개의 조건으로 부분 객체 만들기
-xyand <- subset(df, x>=2 & y<=6)
+xyand <- subset(df, x>=2 & y<=6) # R에서는 '&&' 2개 사용 안 하고 '&' 1개만 사용
 xyand
 
 xyor <- subset(df, x>=2 | y<=6)
@@ -382,8 +384,8 @@ student <- data.frame(sid, score, subject)
 student
 
 # 자료형과 자료구조 보기
-mode(student); class(student) # list, data.frame
-str(sid); str(score); str(subject)
+mode(student); class(student) # list라는 자료형, data.frame
+str(sid); str(score); str(subject) # sid character, score number, subject character
 str(student)
 
 # 두 개 이상의 데이터프레임 병합하기
@@ -391,7 +393,7 @@ height <- data.frame(id=c(1,2), h=c(180, 175))
 weight <- data.frame(id=c(1,2), w=c(80,75))
 height; weight
 
-person <- merge()
+person <- merge(height, weight, by.x = "id", by.y = "id") # id를 기준으로 병합
 person
 
 
@@ -399,13 +401,15 @@ person
 install.packages("UsingR") # 패키지 설치
 library(UsingR) # 패키지 메모리에 로드
 data("galton") # galton 데이터 셋 가져오기
+View(galton)
 
 # galton 데이터 셋 구조 보기
-str(galton)
-dim(galton)
-head(galton, 20)
-head(galton) # default 갯수:6
-
+str(galton) # 928 obs. of  2 variables:
+dim(galton) # 928   2
+head(galton, 20) # 상위 1~20개까지
+head(galton) # default 갯수는 6개
+tail(galton, 20) # 하위 1~20개까지
+tail(galton)
 
 ## 6. 문자열 처리
 
@@ -414,8 +418,8 @@ install.packages("stringr") # 패키지 설치
 library(stringr) # 메모리 로딩
 
 # 형식) str_extract('문자열', '정규표현식')
-str_extract("홍길동35이순신45강감찬50","")
-str_extract_all("홍길동35이순신45강감찬50","")
+str_extract("홍길동35이순신45강감찬50","[0-9]{2}") #[0-9]사이의 숫자값, {2}연속 2자리인 것만 추출하겠다.
+str_extract_all("홍길동35이순신45강감찬50","[0-9]{2}") # 모든 숫자형 문자열 데이터를 추출
 
 
 # 반복수를 지정하여 영문자 추출
