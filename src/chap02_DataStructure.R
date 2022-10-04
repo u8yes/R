@@ -348,7 +348,7 @@ df
 df$x; df$y; df$z
 
 # 자료구조, 열수, 행수, 컬럼명 보기
-str(df)
+str(df) # 5 obs. of  3 variables: # 5개의 오브젝트와 3개의 변수
 ncol(df)
 nrow(df)
 df[c(2:3)]
