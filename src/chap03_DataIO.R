@@ -9,19 +9,19 @@
 ## 1-1. 키보드 입력
 
 # 키보드로 숫자 입력하기
-num <- 
+num <- scan()
 num
 
 # 합계 구하기
 sum(num)
 
 # 키보드로 문자 입력하기
-name <- 
+name <- scan(what = character())
 name
 
 # 편집기 이용 데이터프레임 만들기
-df <- 
-df <- 
+df <- data.frame() # 빈 데이터프레임 생성성
+df <- edit(df)
 df
 
 ## 1-2. 로컬 파일 가져오기
@@ -29,9 +29,9 @@ df
 # 1) read.table() 함수 이용
 #   - 컬럼명이 없는 파일 불러오기
 getwd()
-setwd("C:/workspaces/Rwork/data")
+setwd("D:/heaven_dev/workspaces/R/data")
 
-student <- read.table()
+student <- read.table(file = "student.txt")
 student
 mode(student); class(student)
 
@@ -39,19 +39,19 @@ names(student) <- c('번호', '이름', '키', '몸무게')
 student
 
 #   - 컬럼명이 있는 파일 불러오기
-student1 <- read.table()
+student1 <- read.table(file = "student1.txt", header = T )
 student1
 
 #   - 탐색기를 통해서 파일 선택하기
-student1 <- read.table()
+student1 <- read.table(file.choose(), header = T)
 student1
 
 #   - 구분자가 있는 경우(세미콜론, 탭)
-student2 <- read.table()
+student2 <- read.table(file = "student2.txt", sep = ";", header = T)
 student2
 
 #   - 결측치를 처리하여 파일 불러오기
-student3 <- read.table() 
+student3 <- read.table(file = "student3.txt", header = T, na.strings = "-") 
 student3
 
 #   - csv 파일 형식 불러오기

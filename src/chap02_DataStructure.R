@@ -308,7 +308,7 @@ vemp <- data.frame(No=no,Name=name,Pay=pay)
 vemp
 class(vemp) # "data.frame"
 
-# matrix 이용 객체 생성
+# matrix 이용 객체 생성 # Day21; 20221004
 args(matrix) # 매개변수에 대한 inform을 보여준다. # function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL) # byrow 행우선
 m <- matrix(c(1,"베드로", 153, 
               2,"다니엘", 777,
@@ -423,45 +423,47 @@ str_extract_all("홍길동35이순신45강감찬50","[0-9]{2}") # 모든 숫자�
 
 
 # 반복수를 지정하여 영문자 추출
-string <- 'hongkildong105lee1002you25강감찬2005'
-str_extract_all(string, '')
-str_extract_all(string, '')
-str_extract_all(string, '')
+string <- 'hongkildong105lee1002you25베드로2005'
+str_extract_all(string, '[a-z]{3}') # 3자 연속된 알파벳 추출 # 소문자, 대문자 구분
+str_extract_all(string, '[a-z]{3,}') # 3글자 이상 연속된 알파벳 추출 
+str_extract_all(string, '[a-z]{3,5}') # 3~5글자 범위 안에 속하는 알파벳 추출
 
 # 특정 단어 추출
 str_extract_all(string, '유관순')
-str_extract_all(string, '강감찬')
+str_extract_all(string, '베드로')
 
 
 # 한글, 영문자, 숫자 추출하기
 str_extract_all(string, 'hong')
 str_extract_all(string, '25')
-str_extract_all(string, '') # 한글 검색
-str_extract_all(string, '') # 소문자 검색
-str_extract_all(string, '') # 대문자 검색
-str_extract_all(string, '') # 숫자 검색
+str_extract_all(string, '[가-힣]{3}') # 한글 검색
+str_extract_all(string, '[a-z]{3}') # 소문자 검색
+str_extract_all(string, '[A-Z]{3}') # 대문자 검색
+str_extract_all(string, '[0-9]{4}') # 숫자 검색
 
 
 # 한글, 영문자, 숫자를 제외한 나머지 추출하기
-str_extract_all(string, '')
-str_extract_all(string, '')
-str_extract_all(string, '')
-str_extract_all(string, '')
+str_extract_all(string, '[^a-z]') # ^표시가 제외외
+str_extract_all(string, '[^a-z]{4}') # 알파벳을 제외한 4개의 연속
+str_extract_all(string, '[^가-힣]{5}')
+str_extract_all(string, '[^0-9]{3}')
 
 
 # 주민등록번호 검사하기
 jumin <- '123456-3234567'
-str_extract_all(jumin, '')
-str_extract_all(jumin, '')
-
+str_extract_all(jumin, '[0-9]{6}-[1234][0-9]{6}')
+str_extract_all(jumin, '\\d{6}-[1234]\\d{6}') # \\두번을 써야지 문자 '\'로 인식
+# 숫자는 \d
 # 지정된 길이의 단어 추출하기
 name <- '홍길동1234,이순신5678,강감찬1012'
-str_extract_all(name, '') 
-str_extract_all(name, '')
+str_extract_all(name, '\\w{7,}') # '\\w' 특수문자 제외한 모든 문자
+# '\\w': 한글, 영문자, 숫자는 포함.
+# '\\W': only 특수문자만 선택.
+str_extract_all(name, '\\W')
 
 # 문자열 위치(index) 구하기
 string <- 'hongkd105leess1002you25강감찬2005'
-str_locate(string, '강감찬')
+str_locate(string, '강감찬') # '강'위치:24,  '찬'위치:26
 
 # 문자열 길이 구하기
 string <- 'hongkild105lee1002you25강감찬2005'
@@ -469,7 +471,7 @@ len <- str_length(string) # 30
 len
 
 # 부분 문자열
-string_sub <- str_sub(string, 1, len-7)
+string_sub <- str_sub(string, 1, len-7) # 30-7 = 23개까지의 데이터만을
 string_sub
 
 string_sub <- str_sub(string, 1, 23)
@@ -483,22 +485,22 @@ str_to_lower(string_sub)
 string_rep <- str_replace(string_sub, 'hongkild105', '홍길동35,')
 string_rep <- str_replace(string_rep, 'lee1002', '이순신45,')
 string_rep <- str_replace(string_rep, 'you25', '유관순25,')
-string_rep
+string_rep # "홍길동35,이순신45,유관순25,"
 
 
 # 문자열 결합하기
-string_c <- str_c(string_rep, '강감찬55')
+string_c <- str_c(string_rep, '강감찬55') # 추가하고 싶을 때 str_c
 string_c
 
 
 # 문자열 분리하기
-string_sp <- str_split(string_c, ',')
+string_sp <- str_split(string_c, ',') # 각각의 하나의 데이터셋으로 출력
 string_sp
 
 # 문자열 합치기
 string_vec <- c('홍길동35', '이순신45', '유관순25', '강감찬55')
 string_vec
 
-string_join <- paste(string_vec, collapse = ',')
+string_join <- paste(string_vec, collapse = ',') # 하나의 벡터로 합침.
 string_join
 
