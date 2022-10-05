@@ -55,9 +55,9 @@ logical
 logical <- num1 >= 50 | num2 <= 10
 logical
 
-x <- TRUE; y <- FALSE
+x <- TRUE; y <- FALSE # 둘 중 하나만 달라도 TRUE
 xor(x, y)
-x <- TRUE; y <- TRUE
+x <- TRUE; y <- TRUE # 둘이 같으면 무조건 FALSE
 xor(x, y)
 
 logical <- num1 >= 50
@@ -113,15 +113,15 @@ print(result)
 
 
 # 2) ifelse(조건, 참, 거짓) - 3항 연산자 기능
-
+# <JAVA에서는> (boolean)? true:false ;
 score <- c(78, 95, 85, 65)
 score
-ifelse(score >= 80, "우수", "노력")
-# "노력" "우수" "우수" "노력"
+ifelse(score >= 80, "우수", "노력") # 우수 = TRUE, 노력 = FALSE
+# "노력" "우수" "우수" "노력" # FALSE TRUE TRUE FALSE
 
 # ifelse() 응용
 getwd()
-setwd("C:/workspaces/Rwork/data")
+setwd("D:/heaven_dev/workspaces/R/data")
 
 excel <- read.csv("excel.csv", header = T)
 excel
