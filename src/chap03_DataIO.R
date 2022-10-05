@@ -51,27 +51,32 @@ student2 <- read.table(file = "student2.txt", sep = ";", header = T)
 student2
 
 #   - 결측치를 처리하여 파일 불러오기
-student3 <- read.table(file = "student3.txt", header = T, na.strings = "-") 
+student3 <- read.table(file = "student3.txt", header = T, na.strings = "-") # 문자열 -> NA 처리
 student3
 
-#   - csv 파일 형식 불러오기
-student4 <- read.csv()
+#   - csv 파일 형식 불러오기 # Day22; 20221005
+student4 <- read.csv(file = "student4.txt", header = T, na.strings = "-", encoding = "UTF-8")
 student4
 
 # read.xlsx() 함수 이용 - 엑셀데이터 읽어오기
 # 패키지 설치와 java 실행 환경 설정
 install.packages("rJava") # rJava 패키지 설치
 install.packages("xlsx")  # xlsx 패키지 설치
-Sys.setenv()
+Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-11.0.16.1')
 
 # 관련 패키지 메모리 로드
 library(rJava)
-library(xlsx)
+library(xlsx) # 엑셀을 읽어올 수 있음
 
 # 엑셀 파일 가져오기
-studentex <- read.xlsx()
+studentex <- read.xlsx("studentexcel.xlsx", encoding = "UTF-8", sheetIndex = 1) # 엑셀 한장이니깐 1
 studentex
 
+install.packages("readxl")
+library(readxl) # 엑셀을 읽어올 수 있음
+
+st_excel <- read_excel(path = "studentexcel.xlsx", sheet = 1)
+st_excel
 
 ## 1-3. 인터넷에서 파일 가져오기
 
