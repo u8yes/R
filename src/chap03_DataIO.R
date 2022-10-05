@@ -87,7 +87,7 @@ head(GDP_ranking, 20)
 dim(GDP_ranking)
 
 # 데이터를 가공하기 위해 불필요한 행과 열을 제거한다.
-GDP_ranking2 <- GDP_ranking[-c(1:4), c(1,2,4,5)]
+GDP_ranking2 <- GDP_ranking[-c(1:4), c(1,2,4,5)] # 1~4행까지는 빼겠다. 1,2,4,5 열만 보이겠다
 head(GDP_ranking2)
 
 # 상위 16개 국가 선별한다.
@@ -99,10 +99,14 @@ names(GDP_ranking16) <- c('Code', 'Ranking', 'Nation', 'GDP')
 GDP_ranking16
 dim(GDP_ranking16)
 
+
 # 단계2 : 세계 GDP 상위 16위 국가 막대 차트 시각화
 gdp <- GDP_ranking16$GDP
 nation <- GDP_ranking16$Nation
 gdp
+
+install.packages("stringr")
+library(stringr)
 
 num_gdp <- as.numeric(str_replace_all(gdp, ',', ''))
 num_gdp
@@ -118,7 +122,7 @@ barplot(GDP_ranking16$GDP, col = rainbow(16),
 num_gdp2 <- num_gdp / 1000
 GDP_ranking16$GDP2 <- num_gdp2
 barplot(GDP_ranking16$GDP2, col = rainbow(16),
-        main = "2020년도 GDP 세계 16위 국가",
+        main = "2021년도 GDP 세계 16위 국가",
         xlab = '국가(nation)', ylab='단위(천달러)', names.arg=nation)
 
 GDP_ranking16
@@ -139,8 +143,9 @@ library(httr)
 # 단계2 : 미국의 주별 1인당 소득 자료 가져오기.
 url <- "https://ssti.org/blog/useful-stats-capita-personal-income-state-2010-2015"
 
-
-
+get_url <- GET(url)
+get_url$content # 16진수로 읽어와서 담는다
+rawToChar()
 
 # 단계4 : 컬럼명을 수정한 후 뒷부분 6개 관측치 보기
 
@@ -160,7 +165,7 @@ url <- "https://ssti.org/blog/useful-stats-capita-personal-income-state-2010-201
 # 2-2. 파일에 데이터 저장
 #  1) sink() 함수를 이용한 파일 저장
 getwd()
-setwd("C:/workspaces/Rwork/output")
+setwd("D:/heaven_dev/workspaces/R/output")
 
 library(RSADBE)
 data("Severity_Counts") # Severity_Counts 데이터 셋 가져오기
