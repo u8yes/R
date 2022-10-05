@@ -55,7 +55,7 @@ student3 <- read.table(file = "student3.txt", header = T, na.strings = "-") # �
 student3
 
 #   - csv 파일 형식 불러오기 # Day22; 20221005
-student4 <- read.csv(file = "student4.txt", header = T, na.strings = "-", encoding = "UTF-8")
+student4 <- read.csv(file = "student4.txt", header = T, na.strings = "-", encoding = "UTF-8") # 최근 버전이 한글이 깨져서 이전 버전으로 돌아와서 encoding 추가해줌
 student4
 
 # read.xlsx() 함수 이용 - 엑셀데이터 읽어오기
@@ -87,7 +87,7 @@ head(GDP_ranking, 20)
 dim(GDP_ranking)
 
 # 데이터를 가공하기 위해 불필요한 행과 열을 제거한다.
-GDP_ranking2 <- GDP_ranking[-c(1:4), c(1,2,4,5)] # 1~4행까지는 빼겠다. 1,2,4,5 열만 보이겠다
+GDP_ranking2 <- GDP_ranking[-c(1:4), c(1,2,4,5)] # c(1~4행까지는 빼겠다), 1,2,4,5 열만 보이겠다
 head(GDP_ranking2)
 
 # 상위 16개 국가 선별한다.
