@@ -145,20 +145,31 @@ url <- "https://ssti.org/blog/useful-stats-capita-personal-income-state-2010-201
 
 get_url <- GET(url)
 get_url$content # 16진수로 읽어와서 담는다
-rawToChar()
+rawToChar(get_url$content)
+
+html_cont <- readHTMLTable(rawToChar(get_url$content), stringsAsFactors=F)
+class(html_cont) # "list"는 key, value 형태
+
+html_cont <- as.data.frame(html_cont) # data.frame으로 형변환
+class(html_cont) # "data.frame"
+head(html_cont) # 6개만 표시하겠다.
 
 # 단계4 : 컬럼명을 수정한 후 뒷부분 6개 관측치 보기
-
+names(html_cont) <- c("state","y2010","y2011","y2012","y2013","y2014","y2015")
 
 
 # 2. 데이터 저장하기
 # 2-1. 화면(콘솔) 출력
 #  1) cat() 함수
-
-
+x <- 10
+y <- 20
+z <- x * y
+cat("x * y의 결과는 ", z, "입니다. \n") # \n은 줄바꿈 # x * y의 결과는  200 입니다.
 
 #  2) print() 함수
-
+print(z)
+print(z * 10)
+print("x*y=", z) # 문자 출력이 안 됨 # Error in print.default("x*y=", z) : invalid printing digits 200
 
 
 
@@ -167,8 +178,9 @@ rawToChar()
 getwd()
 setwd("D:/heaven_dev/workspaces/R/output")
 
+install.packages("RSADBE")
 library(RSADBE)
-data("Severity_Counts") # Severity_Counts 데이터 셋 가져오기
+data("Severity_Counts") # Severity_Counts 데이터 셋 가져오기 # 출시 전후의 문제점의 개수 등급별로 나눈 것
 Severity_Counts
 
 sink("severity.txt") # 저장할 파일 open
@@ -178,33 +190,40 @@ sink()    # 오픈된 파일 close
 
 #  2) write.table() 함수 이용 파일 저장
 # 탐색기를 이용하여 데이터 가져오기
- 
+studenttx <- read.xlsx(file.choose(), sheetIndex = 1, encoding = "UTF-8")
+studenttx
 
 # 기본 속성으로 저장 - 행이름과 따옴표가 붙는다.
-
+write.table(studenttx, "stdt.txt")
 
 # 'row.names=F' 속성을 이용하여 행이름 제거하여 저장한다.
-
+write.table(studenttx, "stdt2.txt", row.names =  F)
 
 # 'quote=F' 속성을 이용하여 따옴표를 제거하여 저장한다.
-
+write.table(studenttx, "stdt3.txt", quote = F)
 
 # 행이름 제거 + 따옴표 제거
+write.table(studenttx, "stdt4.txt", quote = F, row.names =  F)
 
+GDP_ranking16
+write.table(GDP_ranking16, "GDP_ranking16.txt", row.names = F) # 파일에 테이블 내용을 저장하는 함수
 
-
-
+GDP_ranking16_read <- read.table("GDP_ranking16.txt", sep="", header = T)
+GDP_ranking16_read
 
 #  3) write.xlsx() 함수 이용 파일 저장 - 엑셀 파일로 저장
 library(rJava)
 library(xlsx) # excel data 입출력 함수 제공
 
+st.df <- read.xlsx(file.choose(), sheetIndex = 1, encoding = "UTF-8")
+st.df
 
+write.xlsx(st.df, "studentx.xlsx") # excel 형식으로 저장
 
 #  4) write.csv() 함수 이용 파일 저장
 #     - data.frame 형식의 데이터를 csv 형식으로 저장.
 
-
+write.csv(st.df, "stdf.scv",row.names = F, quote = F)
 
 
 

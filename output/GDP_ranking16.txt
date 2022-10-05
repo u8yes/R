@@ -1,0 +1,17 @@
+"Code" "Ranking" "Nation" "GDP" "GDP2"
+"USA" "1" "United States" 22996100 22996.1
+"CHN" "2" "China" 17734063 17734.063
+"JPN" "3" "Japan" 4937422 4937.422
+"DEU" "4" "Germany" 4223116 4223.116
+"GBR" "5" "United Kingdom" 3186860 3186.86
+"IND" "6" "India" 3173398 3173.398
+"FRA" "7" "France" 2937473 2937.473
+"ITA" "8" "Italy" 2099880 2099.88
+"CAN" "9" "Canada" 1990762 1990.762
+"KOR" "10" "Korea, Rep." 1798534 1798.534
+"RUS" "11" "Russian Federation" 1775800 1775.8
+"BRA" "12" "Brazil" 1608981 1608.981
+"AUS" "13" "Australia" 1542660 1542.66
+"ESP" "14" "Spain" 1425277 1425.277
+"MEX" "15" "Mexico" 1293038 1293.038
+"IDN" "16" "Indonesia" 1186093 1186.093
