@@ -119,7 +119,7 @@ score
 ifelse(score >= 80, "우수", "노력") # 우수 = TRUE, 노력 = FALSE
 # "노력" "우수" "우수" "노력" # FALSE TRUE TRUE FALSE
 
-# ifelse() 응용
+# ifelse() 응용 # Day23; 20221006 #
 getwd()
 setwd("D:/heaven_dev/workspaces/R/data")
 
@@ -127,12 +127,13 @@ excel <- read.csv("excel.csv", header = T)
 excel
 
 q1 <- excel$q1 # q1 변수값 추출
+q1
 ifelse(q1 >= 3, sqrt(q1), q1) # 3보다 큰 경우 sqrt() 함수 적용.
 ifelse(q1 >= 2 & q1 <= 4, q1^2, q1)
 
 # 3) switch문
 #   형식) switch(비교구문, 실행구문1, 실행구문2, 실행구문3, ...)
-switch("name", id="hong", pwd="1234", age=25, name="홍길동")
+switch("name", id="hong", pwd="1234", age=25, name="홍길동") 
 
 empname <- scan(what = "")
 empname # "kang"
@@ -155,7 +156,7 @@ exam <- data.frame(학번=no, 이름=name, 성적=score)
 exam
 
 sel <- which(exam$이름=="유관순") # 4
-
+sel # 4 
 exam[sel,]
 
 
