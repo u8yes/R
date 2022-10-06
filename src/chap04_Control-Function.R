@@ -187,7 +187,7 @@ for(n in i){
 
 for(n in i){
   if(n %% 2 == 0){
-    next # 다음 문장 skip -> 반복문 계속(자바의 continue 키워드와 동일.)
+    next # 다음 문장 skip -> 반복문 계속(자바의 continue 키워드와 동일.) # next 다시 반복문을 실행하러 돌아가라
   }else{
     print(n) # %% : 나머지 값 - 홀수만 출력.
   }
