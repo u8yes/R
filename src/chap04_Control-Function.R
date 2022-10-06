@@ -206,7 +206,7 @@ for(s in score){
 # 2) 반복문 - while(조건){표현식}
 i = 0
 
-while(i < 10){
+while(i < 10){ # ()는 boolean값만 올 수 있다. 그래야 무한반복을 피할 수 있다.
   i <- i + 1
   print(i)
 }
