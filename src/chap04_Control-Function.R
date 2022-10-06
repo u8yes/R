@@ -259,16 +259,18 @@ add
 getwd()
 setwd("D:/heaven_dev/workspaces/R/data")
 
-test <- read.csv("test.csv", header = T)
+test <- read.csv("test.csv", header = T) # data.frame으로 읽어옴
 head(test)
+test # 200행
 
 # A 컬럼 요약통계량, 빈도수 구하기.
 summary(test) # 요약통계량.
-table(test$A) # A 변수 대상 빈도 수.
+table(test$A) # A 변수 대상 빈도 수. # table()은 빈도수 # (빈)도수분포표
 max(test$A)   # 최대값
 min(test$A)   # 최소값
-
+# table에서 도수분포표에 갯수로 나누어주면 확률분포표
 length(test)  # 5
+
 
 # 각 컬럼 단위 요약통계량과 빈도 수 구하기.
 data_pro <- function(x){
@@ -294,7 +296,7 @@ z <- c(7, 5, 12, 9, 15, 6) # x 변량 생성
 
 var_sd <- function(x){
   var <- sum((x-mean(x))^2) / (length(x)-1) # 표본분산
-  sd <- sqrt(var)
+  sd <- sqrt(var) # root를 씌운 것을 sqrt()
   cat('표본분산:', var, '\n')
   cat('표본 표준편차:', sd, '\n')
 }
@@ -305,8 +307,8 @@ var_sd(z)
 data <- c(10, 20, 5, 4, 40, 7, NA, 6, 3, NA, 2, NA)
 data
 
-mean(data) # NA
-mean(data, na.rm = T) # 10.77778
+mean(data) # NA # mean은 평균을 구하는 함수
+mean(data, na.rm = T) # 10.77778 # na.remove = TRUE하고 결과를 보여줌
 
 # 구구단 출력 함수
 gugudan <- function(i, j){
@@ -334,7 +336,7 @@ na <- function(x){
   print(mean(x, na.rm = T))
 
   # 2차 : NA를 0으로 대체
-  data <- ifelse(!is.na(x), x, 0) # NA이면 0으로 대체.
+  data <- ifelse(!is.na(x), x, 0) # NA이면 0으로 대체. , boolean값이 true이면 x, 아니면 0
   print(data)
   print(mean(data))
 
@@ -349,7 +351,7 @@ na(data) # 함수 호출
 # 데이터가 손실될 수 있다.
 
 
-## 2. 주요 내장 함수
+## 2. 주요 내장 함수 # Day23; 20221006
 
 # 행 단위, 컬럼 단위 합계와 평균 구하기.
 
