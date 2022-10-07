@@ -351,7 +351,7 @@ na(data) # 함수 호출
 # 데이터가 손실될 수 있다.
 
 
-## 2. 주요 내장 함수 # Day23; 20221006
+## 2. 주요 내장 함수 # Day24; 20221007
 
 # 행 단위, 컬럼 단위 합계와 평균 구하기.
 
@@ -372,45 +372,45 @@ colSums(Bug_Metrics_Software[,,1])
 colMeans(Bug_Metrics_Software[,,1])
 
 # 기술 통계량 관련 내장 함수 사용 예
-seq(-2, 2, by = .2) # 0.2씩 증가
-vec <- 1:10
+seq(-2, 2, by = .2) # 0.2씩 증가 # seq(시작값, 끝값, step 0.2 단위로 증가)
+vec <- 1:10 # c()가 생략됐다.
 vec
 
 min(vec)
 max(vec)
-range(vec)
-mean(vec)
-median(vec)
+range(vec) # 최소값 ~ 최대값의 범위
+mean(vec) # 평균
+median(vec) # 중간값
 sum(vec)
-var(vec)
+var(vec) # 분산
 sd(vec) # 표준편차 구하기.
 table(vec)    # 빈도수
 
 # 난수와 확률 분포 관계
 # 단계1 : 정규분포(연속형)의 난수 생성
 n <- 1000
-r <- rnorm(n, mean = 0, sd = 1)
+r <- rnorm(n, mean = 0, sd = 1) # 평균을 0, 표준편차를 1로 해서 난수를 뽑아내는 것
 hist(r) # 대칭성
 
 # 단계2 : 균등분포(연속형)의 난수 생성
 n <- 1000
-r2 <- runif(n, min = 0, max = 1) # 0 < r2 < 1
+r2 <- runif(n, min = 0, max = 1) # 0 < r2 < 1 # R uniform 균일한 분포
 hist(r2)
 
 
 # 단계3 : 이항분포(이산형) 난수 생성
 n <- 20
-rbinom(n, 1, prob = 1/2)
+rbinom(n, 1, prob = 1/2) # R binary, prob 1/2의 확률이다. 0이 10개, 1이 10개
 rbinom(n, 2, 0.5)
 rbinom(n, 10, 0.5)
 n <- 1000
 rbinom(n, 5, prob = 1/6)
 
-# 단계4 : 종자값(seed)으로 동일한 난수 생성.
-rnorm(5, mean=0, sd=1)
+# 단계4 : 종자값(seed)으로 동일한 난수 생성. # 난수 - 1/1000초를 기준으로 난수, 그래서 서로 다른 값을 생성하는 것처럼 보이는 것이다.
+rnorm(5, mean=0, sd=1) # 5개의 난수
 
 set.seed(123)
-rnorm(5, mean=0, sd=1)
+rnorm(5, mean=0, sd=1) # 계속 같은 값으로 난수 발생
 
 set.seed(345)
 rnorm(5, mean=0, sd=1)
@@ -419,8 +419,8 @@ rnorm(5, mean=0, sd=1)
 vec <- 1:10
 prod(vec) # 벡터 원소들의 곱
 factorial(5)
-abs(-5)
-sqrt(16)
+abs(-5) # 절대값 계산
+sqrt(16) # 루트값
 
 log(10) # 10의 자연로그(밑수가 e)
 log10(10) # 10의 일반로그(밑수가 10)
