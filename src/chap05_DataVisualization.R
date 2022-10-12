@@ -120,15 +120,15 @@ pie(chart_data, labels = names(chart_data),
 title("2019~2020년도 분기별 매출현황")
 
 
-# 2. 연속변수(Continuous quantitative data) 시각화
+# 2. 연속변수(Continuous quantitative data) 시각화 # Day25; 20221011
 #   - 시간, 길이 등과 같은 연속성을 가진 변수.
 
 #  1) 상자 그래프 시각화 : 요약정보를 시각화하는데 효과적. 특히 데이터의 분포 정도와 이상치 발견을 목적으로 하는 경우 유용.
 help(boxplot)
 par(mfrow=c(1,2))
 boxplot(VADeaths) # 상자그래프 시각화.
-boxplot(VADeaths, range=0)
-# range=0:최소값과 최대값을 점선으로 연결하는 역할.
+boxplot(VADeaths, range=0) 
+# range=0:최소값과 최대값 사이를 점선으로 연결하는 역할.
 
 abline(h = 37, lty=3, col="red") # 기준선 추가(lty=3 : 점선)
 
@@ -192,7 +192,7 @@ plot(line_chart, type = "l", col="red", axes = F, ann = F)
 text(70, 80, "대각선 추가", col="blue")
 
 # type 속성으로 그리기
-par(mfrow=c(2,2)) # 2행 2열 차트 그리기
+par(mfrow=c(2,2)) # 2행 2열 차트 그리기.
 plot(price, type = "l") # 유형:실선
 plot(price, type = "o") # 유형:원형과 실선(원형통과)
 plot(price, type = "h") # 유형:직선
