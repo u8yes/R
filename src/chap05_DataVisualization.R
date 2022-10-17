@@ -146,11 +146,11 @@ table(iris$Species)
 names(iris)
 # "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" "Species"
 
-summary(iris$Sepal.Width)
+summary(iris$Sepal.Width) # 기술 통계량
 
 hist(iris$Sepal.Width, xlab = "꽃받침의 너비",
      col="green", xlim=c(2.0, 4.5),
-     main="iris 꽃받침 너비 histogram")
+     main="iris 꽃받침 너비 histogram") # xlimit(2 ~ 4.5까지 지정)
 
 summary(iris$Sepal.Length)
 
@@ -161,18 +161,18 @@ hist(iris$Sepal.Length, xlab = "꽃받침의 길이",
 # 확률 밀도로 히스토그램 그리기 - 연속형변수의 확률.
 hist(iris$Sepal.Width, xlab = "꽃받침 너비",
      col="mistyrose", xlim=c(2.0, 4.5),
-     main="iris 꽃받침 너비 histgram", freq=F)
+     main="iris 꽃받침 너비 histgram", freq=F) # y축을 빈도수가 아닌 밀도로 계산을 해서 y축을 설정
 
 # 밀도를 기준으로 line을 그려준다.
 lines(density(iris$Sepal.Width), col="red")
 
 # 정규분포곡선 추가
 # - 분포곡선:빈도수의 값을 선으로 연결하여 얻어진 곡선.
-x <- seq(2.0, 4.5, 0.1)
+x <- seq(2.0, 4.5, 0.1) # 0.1단위로 2~ 4.5까지 연속적인 데이터셋을 반환
 x
 
 curve(dnorm(x, mean=mean(iris$Sepal.Width), sd=sd(iris$Sepal.Width)),
-      col="blue", add=T)
+      col="blue", add=T) # width값이 파란색(blue)
 
 
 #  3) 산점도 시각화
@@ -180,13 +180,14 @@ curve(dnorm(x, mean=mean(iris$Sepal.Width), sd=sd(iris$Sepal.Width)),
 
 # 기본 산점도 시각화
 price <- runif(10, min = 1, max = 100) # 1~100 사이의 10개 난수 발생.
+price # 난수를 확인 가능
 plot(price)
 
 # 대각선 추가
 par(new=T) # 차트 추가
 line_chart <- c(1:100)
 line_chart
-plot(line_chart, type = "l", col="red", axes = F, ann = F)
+plot(line_chart, type = "l", col="red", axes = F, ann = F) 
 
 # 텍스트 추가
 text(70, 80, "대각선 추가", col="blue")
@@ -203,7 +204,7 @@ plot(price, type="o", pch=5) # 빈 사각형
 plot(price, type="o", pch=15) # 채워진 사각형
 plot(price, type="o", pch=20) # 채워진 원형
 plot(price, type="o", pch=20, col="blue")
-plot(price, type="o", pch=20, col="orange", cex=3.0)
+plot(price, type="o", pch=20, col="orange", cex=3.0) # 
 plot(price, type="o", pch=20, col="orange", cex=3.0, lwd=3) # lwd:line width
 
 
@@ -231,15 +232,16 @@ xy.df
 plot(x, y, pch=15, col="blue",
      xlab = "x 벡터 원소",
      ylab = "y 벡터 원소",
-     cex = 0.8 * xy.df$Freq)
+     cex = 0.8 * xy.df$Freq) # cex 문자 캐릭터 expansion
 
 
 # galton 데이터 셋 대상 중복 자료 시각화
 # galton 데이터 셋 가져오기
+install.packages("UsingR")
 library(UsingR)
-data("galton")
-head(galton)
-str(galton) # 'data.frame':	928 obs. of  2 variables:
+data("galton") # 자식과 부모의 키 차이
+head(galton) # 빈도수 값을 6번째까지 보여줌
+str(galton) # 'data.frame':	928 obs. of  2 variables: # 928 가정을 대상으로 부모와 자식의 키 차이 데이터 제공
 class(galton) # "data.frame"
 
 # 데이터프레임으로 변환
@@ -258,8 +260,8 @@ child <- as.numeric(galtonData$child)
 # 점의 크기 확대
 plot(parent, child, pch=21, col="blue", bg="green",
      xlab = "parent", ylab = "child",
-     cex = 0.2 * galtonData$freq)
-
+     cex = 0.2 * galtonData$freq) # 빈도수가 많을수록 0.2가 곱해짐
+# plot ch캐릭터(pch)는 21일수록 더 원의 형태로 보여줌
 
 #  5) 변수 간의 비교 시각화
 # iris 4개 변수의 상호 비교
