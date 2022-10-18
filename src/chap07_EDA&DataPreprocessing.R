@@ -188,27 +188,27 @@ csurvey
 dataset2$survey2 <- csurvey
 mean(dataset2$survey2, na.rm = T) # 3.358566 # 5점대가 만점
 
-# 5. 탐색적 분석을 위한 시각화
+# 5. 탐색적 분석을 위한 시각화 # Day30; 20221018
 
-# 5.1 범주형 vs 범주형
+# 5.1 범주형 vs 범주형 # 범주형은 discrete를 말함
 getwd()
 setwd("D:/heaven_dev/workspaces/R/data")
 new_data <- read.csv("new_data.csv", header = T)
 View(new_data)
 
-# 범주형(resident) vs 범주형(gender) 데이터 분포 시각화 # Day30;
+# 범주형(resident) vs 범주형(gender) 데이터 분포 시각화 #
 
 ## 성별에 따른 거주지역 분포 현황
-resident_gender <- table(new_data$resident2, new_data$gender2)
+resident_gender <- table(new_data$resident2, new_data$gender2) # table은 빈도수를 나타내주는 함수, 행:resident2, 열:gender2
 resident_gender
 
 barplot(resident_gender, beside = T, horiz = F,
-        col=rainbow(5),
+        col=rainbow(2),
         legend=row.names(resident_gender),
         main="성별에 따른 거주지역 분포 현황")
 
 ## 거주지역에 따른 성별 분포 현황
-gender_resident <- table(new_data$gender2, new_data$resident2)
+gender_resident <- table(new_data$gender2, new_data$resident2) # table(행,열)
 gender_resident
 
 barplot(gender_resident, beside = T, horiz = F,
@@ -269,7 +269,7 @@ xyplot(price ~ age|factor(gender2), data=new_data)
 
 # 데이터 파일 가져오기
 getwd()
-setwd("C:/workspaces/Rwork/src/data")
+setwd("D:/heaven_dev/workspaces/R/data")
 
 user_data <- read.csv('user_data.csv', header = T)
 View(user_data)
