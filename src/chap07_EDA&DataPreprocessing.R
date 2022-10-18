@@ -211,12 +211,12 @@ barplot(resident_gender, beside = T, horiz = F,
 gender_resident <- table(new_data$gender2, new_data$resident2) # table(행,열)
 gender_resident
 
-barplot(gender_resident, beside = T, horiz = F,
+barplot(gender_resident, beside = T, horiz = T,
         col=rainbow(2),
         legend=row.names(gender_resident),
         main="거주지역에 따른 성별 분포 현황")
 
-barplot(gender_resident, beside = T, horiz = T,
+barplot(gender_resident, beside = F, horiz = T,
         col=rainbow(2),
         legend=row.names(gender_resident),
         main="거주지역에 따른 성별 분포 현황")
@@ -235,6 +235,7 @@ barplot(gender_resident, beside = F, horiz = F,
 # 5.2 연속형 vs 범주형
 
 # 나이(age/연속형) vs 직업(job2/범주형) 데이터 분포 시각화
+# 나이는 태어나면서부터 연속적으로 가지는 것이다.
 install.packages("lattice") # chap08
 library(lattice)
 
