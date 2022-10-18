@@ -9,7 +9,7 @@
 
 ## 2. 격자형(lattice) 기법 시각화(lattice package)
 # 패키지 설치와 실습 데이터 셋 가져오기
-install.packages("lattice")
+install.packages("lattice") # 격자형은 셀 단위로 구분해서 시각화한 것.
 library(lattice)
 
 install.packages(c("statmod", "lme4", "mlmRev"))
@@ -18,21 +18,21 @@ library(lme4)
 library(mlmRev)
 data("Chem97")
 View(Chem97)
-
+# Chem97은 # 1997년 영국2,280개 학교 # 31,022명 학생을 대상으로 A레벨(대학시험) 화학 점수 
 str(Chem97) # 'data.frame':	31022 obs. of  8 variables:
 table(Chem97$score)
 #   0    2    4    6    8   10
 #3688 3627 4619 5739 6668 6681
 range(Chem97$gcsescore) # 0~8
-range(Chem97$age) # -6(1월생)~5(12월생)
+range(Chem97$age) # -6(1월생)~5(12월생) # 7을 기준으로 +-를 추가 or 제거
 
 # 2.1 히스토그램
 # -형식) histogram( ~ x축 컬럼|조건, data...)
 
-histogram(~ gcsescore, data = Chem97) # gcsescore 변수를 대상으로 백분율 적용 히스토그램.
+histogram(~ gcsescore, data = Chem97) # gcsescore 변수를 대상으로 백분율 적용 히스토그램. # gcsescore = 수학 능력 인증 시험
 
 table(Chem97$score)
-
+range(Chem97$score) # 0 10
 # score 변수를 조건으로 지정.
 histogram(~ gcsescore|score, data = Chem97) # score 단위
 
@@ -64,7 +64,7 @@ class(df) # "data.frame"
 df
 
 #   (2) 막대그래프 그리기 - 데이터 형식 변경(matrix 형식을 table 형식으로 변경)
-dft <- as.data.frame.table(VADeaths)
+dft <- as.data.frame.table(VADeaths) # <as.>은 강제 형변환이다.
 str(dft) # 'data.frame':	20 obs. of  3 variables:
 class(dft) # "data.frame"
 dft # Var1 Var2 Freq -> 1열 기준으로 data.table 생성
@@ -79,7 +79,7 @@ barchart(Var1~Freq|Var2, data=dft, layout=c(4,1), origin=0) # origin 속성 : x�
 # 2.4 점 그래프
 # - 형식) dotplot(y축컬럼~x축컬럼|조건,data,layout)
 dotplot(Var1~Freq|Var2, dft) # layout 속성 생략시 기본 : 2행 2열 구조의 패널.
-dotplot(Var1~Freq|Var2, dft,layout=c(1,4))
+dotplot(Var1~Freq|Var2, dft,layout=c(1,4)) # 1개의 행에 4개 출력
 
 # Var2 변수 단위로 그룹화하여 점을 연결하여 플로팅.
 dotplot(Var1 ~ Freq,data=dft, groups=Var2, type="o",
@@ -144,7 +144,7 @@ View(quakes)
 convert <- transform(quakes, depth2 = factor(depth2))
 xyplot(lat~long | depth2, data=convert)
 
-# 동일한 패널에 2개의 y축에 값을 표현.
+# 동일한 패널에 2개의 y축에 값을 표현. # solar 태양열
 xyplot(Ozone+Solar.R ~ Wind | factor(Month),
        data = airquality,
        col=c("blue", "red"),
@@ -156,11 +156,11 @@ xyplot(Ozone+Solar.R ~ Wind | factor(Month),
 # equal.count() 함수 이용 이산형 변수 범주화
 
 # (1) 1~150을 대상으로 겹쳐치지 않게 4개 영역으로 범주화
-numgroup <- equal.count(1:150, number=4, overlap=0)
+numgroup <- equal.count(1:150, number=4, overlap=0) # 등분을 해주는 함수 equal.count(x,number=숫자) # 하지만 완전한 개념은 아니다.
 numgroup
 
 # (2) 지진의 깊이를 5개 영역으로 범주화
-depthgroup <- equal.count(quakes$depth, number=5, overlap=0)
+depthgroup <- equal.count(quakes$depth, number=5, overlap=0) # overlap - 겹쳐지지 않게 하라
 depthgroup
 
 
@@ -184,7 +184,7 @@ xyplot(lat~long | magnitudegroup, data = quakes,
 xyplot(lat~long | depthgroup*magnitudegroup, data=quakes,
        main="Fiji Earthquakes",
        ylab = "latitude", xlab = "longitude",
-       pch="@", col=c("red", "blue"))
+       pch="굿", col=c("red", "blue"))
 
 # 이산형 변수로 리코딩한 뒤에 factor형으로 변환하여 산점도 그래프 그리기
 
@@ -207,12 +207,12 @@ str(convert)
 xyplot(lat ~ long | depth3*mag3, data=convert,
        main="Fiji Earthquakes",
        ylab = "latitude", xlab = "longitude",
-       pch="@", col=c("red", "blue"))
+       pch="@", col=c("red", "blue")) # depth3*mag3 데이터를 각각 보여주게 됨
 
 # 2.7 조건 그래프(graphics 패키지에서 제공)
 coplot(lat~long | depth, data = quakes) # default:6개영역, 0.5단위로 겹침.
 coplot(lat~long | depth, data = quakes, overlap = 0.1) # 겹치는 구간:0.1
-coplot(lat~long | depth, data = quakes, number = 5, row = 1) # 사이간격 5, 1행 5열
+coplot(lat~long | depth, data = quakes, number = 5, row = 1) # 사이간격 5, 1행 5열 # default가 6개였는데 5개로 나누어줌.
 
 # 패널과 조건 막대에 색 적용 후 조건 그래프 그리기
 coplot(lat~long | depth, data = quakes, number = 5, row=1,
