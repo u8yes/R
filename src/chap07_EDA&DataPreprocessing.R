@@ -274,7 +274,8 @@ setwd("D:/heaven_dev/workspaces/R/data")
 
 user_data <- read.csv('user_data.csv', header = T)
 View(user_data)
-table(user_data$house_type)
+table(user_data$house_type) 
+# 주거 형태별
 #  1   2   3   4
 # 32  47  21 300
 
@@ -321,7 +322,7 @@ library(plyr)
 user_pay_data <- join(user_data, product_price, by='user_id')
 View(user_pay_data)
 
-# 병합(위에 결과)된 데이터를 대상으로 고객별 지불 유형에 다른 구매상품 개수 병합하기
+# 병합(위에 결과)된 데이터를 대상으로 고객별 지불 유형에 따른 구매상품 개수 병합하기
 user_pay_data <- join(user_pay_data, pay_price, by='user_id')
 View(user_pay_data)
 
@@ -340,12 +341,12 @@ View(data)
 
 # 표본 추출하기
 nrow(data) # 400, data의 행수 구하기(Number of Rows)
-choice1 <- sample(nrow(data), 30) # 30개 무작위 추출
+choice1 <- sample(nrow(data), 30) # 30개 무작위 추출 # 400개 중 랜덤 30개 추출
 choice1
 data[choice1, 1]
 
 # 50~data 길이 사이에서 30개 무작위 추출
-choice2 <- sample(50:nrow(data), 30)
+choice2 <- sample(50:nrow(data), 30) # 50~400번까지 30개의 무작위
 choice2
 
 # 다양한 범위를 지정해서 무작위 샘플링
@@ -357,8 +358,8 @@ data("iris")
 dim(iris) # 150   5
 
 idx <- sample(1:nrow(iris), nrow(iris) * 0.7)
-training <- iris[idx,] # 학습데이터 셋
-testing <- iris[-idx,] # 검정데이터 셋
+training <- iris[idx,] # 학습데이터 셋 # 7 ~ 80% 학습데이터
+testing <- iris[-idx,] # 검정데이터 셋 # 2 ~ 30% 검정데이터
 
 dim(training) # 105  5
 dim(testing)  #  45  5
@@ -368,22 +369,23 @@ dim(testing)  #  45  5
 #   - 평가의 신뢰도를 높이기 위해 동일한 데이터 셋을 N등분하여 N-1개의 학습데이터 모델을 생성하고, 나머지 1개를 검정데이터로 이용하여 모델을 평가하는 방식.
 
 # 데이터 셋을 대상으로 K겹(fold) 교차 검정 데이터 셋 생성.
+# k겹은 몇 번 반복하겠느냐는 것.
 name <- c('a','b','c','d','e','f')
 score <- c(90, 85, 70, 85, 60, 74)
 df <- data.frame(Name=name, Score=score)
-df
+df # data.frame의 약자가 df
 
 # 교차 검정을 위한 패키지 설치
 install.packages("cvTools")
 library(cvTools)
 
-cross <- cvFolds(n=6, K=3, R=1, type = "random")
+cross <- cvFolds(n=6, K=3, R=1, type = "random") # cvFolds함수 사용, 6개의 데이타를 3겹으로 반복해서 1개의 셋팅값으로 random으로 꺼내도록 한다. # index는 각자마다 다르다.
 cross
 
 str(cross)
 
 # which를 이용하여 subsets 데이터 참조
-cross$subsets[cross$which == 1, 1] # k=1인 경우
+cross$subsets[cross$which == 1, 1] # k=1인 경우 # cross$subsets 추가해라
 cross$subsets[cross$which == 2, 1] # k=2인 경우
 cross$subsets[cross$which == 3, 1] # k=3인 경우
 
