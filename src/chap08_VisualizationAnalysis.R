@@ -218,7 +218,7 @@ coplot(lat~long | depth, data = quakes, number = 5, row = 1) # 사이간격 5, 1
 coplot(lat~long | depth, data = quakes, number = 5, row=1,
        panel=panel.smooth)
 coplot(lat~long | depth, data = quakes, number = 5, row=1,
-       col="blue", bar.bg = c(num="green")) # 패널과 조건 막대 색
+       col="blue", bar.bg = c(num="green")) # 패널과 조건 막대 색 # bar.bg - bar의 background-color을 green으로
 help(coplot)
 
 # 2.8 3차원 산점도 그래프
@@ -227,7 +227,7 @@ help(coplot)
 cloud(depth ~ lat * long, data = quakes,
       zlim = rev(range(quakes$depth)),
       xlab = "경도", ylab = "위도", zlab = "깊이")
-
+# depth(z축), lat(y축), long(x축) # rev(erse) 낮은 수 ~ 높은 수를 뒤바꿔주고 cloud 모양 아래에서부터 위까지 올라가게 만들어줌.
 
 # 테두리와 회전 속성을 추가하여 3차원 산점도 그래프 그리기
 cloud(depth ~ lat * long, data = quakes,
@@ -241,13 +241,13 @@ cloud(depth ~ lat * long, data = quakes,
 
 # 3.1 qplot() 함수
 
-install.packages("ggplot2")
+install.packages("ggplot2") # 필수 패키지(ggplot, lattice 등)
 library(ggplot2)
 data("mpg")
 View(mpg)
 
 str(mpg)
-class(mpg)
+class(mpg) # "data.frame"
 summary(mpg)
 
 # (1) 한 개 변수 대상 qplot() 함수 적용
