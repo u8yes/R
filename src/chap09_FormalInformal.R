@@ -9,7 +9,7 @@
 # 단계1 : 사용자 로그인과 테이블 생성.
 #  - sqlplus 명령문으로 접속 후 다음의 테이블 생성.
 
-
+# cmd 창 들어가서 sqlplus로 scott계정 접속해서 sql 작성해주고 create해줌.
 """
 
 SQL>
@@ -39,17 +39,17 @@ install.packages("DBI")
 install.packages("RJDBC")
 
 # 2) 패키지 로딩
-Sys.setenv(JAVA_HOME='C:/Program Files/Java/jre1.8.0_291')
+Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-11.0.16.1')
 library(DBI)
 library(rJava)
-library(RJDBC) # rJava에 의존적이다(rJava 먼저 로딩).
+library(RJDBC) # rJava에 의존적이다(rJava 먼저 로딩돼있어야 한다).
 
 # 3) Oracle 연동
 
 ###  Oracle 11g Ex.
 # driver
 drv <- JDBC("oracle.jdbc.driver.OracleDriver",
-     "C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar")
+     "C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar") # driver 이름, 경로
 
 
 # db 연동(driver, url, id, pwd)
@@ -70,7 +70,7 @@ View(result)
 query <- "select * from test_table order by age desc"
 dbGetQuery(conn, query)
 
-# (4) 레코드 삽입
+# (4) 레코드 삽입 # dbSendUpdate함수를 이용.
 query <- "insert into test_table values('kang', '1234','강감찬', 35)"
 dbSendUpdate(conn, query)
 
