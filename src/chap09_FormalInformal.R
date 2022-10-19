@@ -109,7 +109,7 @@ install.packages("https://cran.rstudio.com/bin/windows/contrib/3.6/devtools_2.4.
 # Sejong 설치: KoNLP와 의존성 있는 현재 버전의 한글 사전 Sejong 패키지 설치.
 install.packages("Sejong") # 한글 사전 기반
 install.packages(c("hash","tau","RSQLite","rJava"))
-# install.packages("fs")
+# install.packages("devtools")
 
 library(Sejong); library(hash); library(tau); library(RSQLite)
 
