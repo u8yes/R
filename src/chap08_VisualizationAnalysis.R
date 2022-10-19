@@ -237,7 +237,7 @@ cloud(depth ~ lat * long, data = quakes,
       xlab = "경도", ylab = "위도", zlab = "깊이") # panel.aspect:테두리사이즈, screen : 회전각
 
 
-# 3. 기하학적 기법 시각화(ggplot2 package)
+# 3. 기하학적 기법 시각화(ggplot2 package) # Day31; 20221019
 
 # 3.1 qplot() 함수
 
@@ -246,7 +246,7 @@ library(ggplot2)
 data("mpg")
 View(mpg)
 
-str(mpg)
+str(mpg) # 234 obs. of  11 variables:
 class(mpg) # "data.frame"
 summary(mpg)
 
@@ -256,7 +256,7 @@ help(qplot)
 qplot(data=mpg, x=hwy) # 세로 막대 그래프
 
 # fill 속성: hwy 변수를 대상으로 drv 변수에 색 채우기(누적 막대 그래프)
-qplot(hwy, data=mpg, fill=drv) # fill 옵션 적용
+qplot(hwy, data=mpg, fill=drv) # fill 옵션 적용 # 전륜 후륜 4륜
 
 # binwidth 속성: 막대 폭 지정 옵션
 qplot(hwy, data=mpg, fill=drv, binwidth=2) # binwidth 옵션 적용(막대의 폭 크기 지정)
@@ -280,14 +280,14 @@ qplot(displ, hwy, data=mpg, color=drv, facets=.~drv)
 
 View(mtcars)
 str(mtcars) # 'data.frame':	32 obs. of  11 variables:
-table(mtcars$carb)
+table(mtcars$carb) # 카뷰레터 빈도수
 # 1  2  3  4  6  8
 # 7 10  3 10  1  1
-table(mtcars$cyl)
+table(mtcars$cyl) # 실린더 빈도수
 #  4  6  8
 # 11  7 14
-
-qplot(wt,mpg,data=mtcars)
+help(mtcars)
+qplot(wt,mpg,data=mtcars) # 1개(wt)이면 막대 형태, 2개(mpg)이면 점의 형태
 qplot(wt,mpg,data=mtcars,color=factor(carb)) # 색상 적용
 qplot(wt,mpg,data=mtcars,color=factor(carb),size=qsec) # 크기 적용
 qplot(wt,mpg,data=mtcars,color=factor(carb),size=qsec, shape=factor(cyl)) # 모양 적용
@@ -325,7 +325,7 @@ ggplot(data=mpg,aes(x=displ,y=hwy)) # aesthetics(미학)
 
 # 단계2(layer2): 그래프 추가하기
 # 배경에 산점도 추가
-ggplot(data=mpg,aes(x=displ,y=hwy)) + geom_point()
+ggplot(data=mpg,aes(x=displ,y=hwy)) + geom_point() # (산)점(도)으로 표시하겠다.
 
 # 단계3(layer3): 축범위를 조정하는 설정 추가하기.
 # x축 범위값을 3~6으로 지정.
@@ -348,7 +348,7 @@ p + stat_bin(aes(fill=cut), geom="bar") # stat_bin():(aes():미적요소)+ ('geo
 
 p <- ggplot(diamonds, aes(price))
 p + stat_bin(aes(fill=cut), geom="area")
-p + stat_bin(aes(color=cut,size=..density..), geom="point")
+p + stat_bin(aes(color=cut,size=..density..), geom="point") # 계산되어서 새로 만들어진 변수(size=..변수..) ..density..
 
 # (4) 테마(Thema) 적용
 p <- ggplot(diamonds, aes(carat,price,color=cut))
