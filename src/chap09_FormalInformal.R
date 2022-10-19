@@ -107,8 +107,9 @@ install.packages('https://cran.rstudio.com/bin/windows/contrib/3.6/sessioninfo_1
 install.packages("https://cran.rstudio.com/bin/windows/contrib/3.4/KoNLP_0.80.1.zip",repos = NULL)
 install.packages("https://cran.rstudio.com/bin/windows/contrib/3.6/devtools_2.4.1.zip",repos = NULL)
 # Sejong 설치: KoNLP와 의존성 있는 현재 버전의 한글 사전 Sejong 패키지 설치.
-install.packages("Sejong")
+install.packages("Sejong") # 한글 사전 기반
 install.packages(c("hash","tau","RSQLite","rJava"))
+# install.packages("fs")
 
 library(Sejong); library(hash); library(tau); library(RSQLite)
 
