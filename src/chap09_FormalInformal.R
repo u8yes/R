@@ -102,7 +102,7 @@ dbDisconnect(conn) #DBI
 
 # (1) 패키지 설치 및 준비
 #install.packages("KoNLP")
-# - package ‘KoNLP’ is not available...
+# - package ‘KoNLP’ is not available... # 한국어가 가능하게 해주는 패키지
 install.packages('https://cran.rstudio.com/bin/windows/contrib/3.6/sessioninfo_1.1.1.zip', repos = NULL)
 install.packages("https://cran.rstudio.com/bin/windows/contrib/3.4/KoNLP_0.80.1.zip",repos = NULL)
 install.packages("https://cran.rstudio.com/bin/windows/contrib/3.6/devtools_2.4.1.zip",repos = NULL)
@@ -112,7 +112,7 @@ install.packages(c("hash","tau","RSQLite","rJava"))
 
 library(Sejong); library(hash); library(tau); library(RSQLite)
 
-Sys.setenv(JAVA_HOME='C:/Program Files/Java/jre1.8.0_291')
+Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-11.0.16.1')
 library(rJava); library(devtools)
 
 library(KoNLP)
@@ -121,7 +121,7 @@ install.packages(c("wordcloud","tm"))
 library(wordcloud); library(tm)
 
 # (2) 텍스트 자료 가져오기
-facebook <- file("C:/workspaces/Rwork/src/data/facebook_bigdata.txt",encoding = "UTF-8")
+facebook <- file("D:/heaven_dev/workspaces/R/data/facebook_bigdata.txt",encoding = "UTF-8")
 facebook
 facebook_data <- readLines(facebook) # 줄 단위 데이터 생성
 head(facebook_data) # 앞부분 6줄 보기 - 줄 단위 데이터 생성
