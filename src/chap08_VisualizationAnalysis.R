@@ -373,15 +373,15 @@ p <- ggplot(diamonds, aes(carat,price,color=cut))
 p + geom_point()
 
 # 가장 최근 그래프 저장
-ggsave(file="C:/workspaces/Rwork/src/output/diamond_price.pdf")
-ggsave(file="C:/workspaces/Rwork/src/output/diamond_price.jpg", dpi=72)
+ggsave(file="D:/heaven_dev/workspaces/R/output/diamond_price.pdf")
+ggsave(file="D:/heaven_dev/workspaces/R/output/diamond_price.jpg", dpi=72)
 
 # 변수에 저장된 그래프 저장
 p <- ggplot(diamonds, aes(clarity)) # 선명도
 p <- p + geom_bar(aes(fill=cut), position="fill") # bar 추가
 p
 
-ggsave(file="C:/workspaces/Rwork/src/output/diamond_price.png",plot=p,width=10, height=5)
+ggsave(file="D:/heaven_dev/workspaces/R/output/diamond_price.png",plot=p,width=10, height=5)
 
 
 # 4. 지도 공간 기법 시각화(ggmap package)
@@ -399,8 +399,11 @@ library(ggmap)
 seoul <- c(left = 126.77, bottom = 37.40,
            right = 127.17, top = 37.70)
 
+north_korea <- c(left = 127.57, bottom = 40.40,
+           right = 128.17, top = 40.70)
+
 # 단계 2: zoom, maptype으로 정적 지도 이미지 가져오기
-map <- get_stamenmap(seoul, zoom = 12, maptype = 'terrain')
+map <- get_stamenmap(seoul, zoom = 14, maptype = 'terrain')
 ggmap(map)
 
 
@@ -414,7 +417,7 @@ library(stringr)
 region <- pop$'지역명'
 lon <- pop$LON
 lat <- pop$LAT
-tot_pop <- as.numeric(str_replace_all(pop$'총인구수', ',', ''))
+tot_pop <- as.numeric(str_replace_all(pop$'총인구수', ',', '')) # 완전 숫자로 강제 형변환
 
 df <- data.frame(region, lon, lat, tot_pop)
 df
@@ -444,5 +447,5 @@ layer3 <- layer2 + geom_text(data = df,
 layer3
 
 # 단계 6: 크기를 지정하여 파일로 저장하기
-ggsave("C:/workspaces/Rwork/src/output/pop201901.png", scale = 1, width = 10.24, height = 7.68)
+ggsave("D:/heaven_dev/workspaces/R/output/pop201901.png", scale = 1, width = 10.24, height = 7.68)
 
