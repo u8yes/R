@@ -46,10 +46,10 @@ library(gmodels)
 CrossTable(x, y)
 
 # 교차테이블에 카이검정 적용
-CrossTable(x, y, chisq = T)
+CrossTable(x, y, chisq = T) # 카이제곱분석 = TRUE
 #Pearson's Chi-squared test
 #----------------------------------------------------
-#Chi^2 =  2.766951     d.f. =  2     p =  0.2507057
+#Chi^2 =  2.766951     d.f.(자유도) =  2(2행*1열)     p =  0.2507057(유의확률값, 기준:0.05)
 
 
 ## 2. 카이제곱 검정
