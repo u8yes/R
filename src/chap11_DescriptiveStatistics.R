@@ -85,20 +85,22 @@ data <- read.csv("D:/heaven_dev/workspaces/R/data/descriptive.csv", header = T)
 View(data)
 
 # 데이터 특성 보기
-dim(data) # 300 8 - 차원보기
+dim(data) # 300 8 - 차원보기 # 행렬의 갯수값을 반환해준다.
+mode(data) # list
+class(data) # data.frame
 length(data) # 8
 length(data$survey) # 300
 str(data) # 'data.frame':	300 obs. of  8 variables:
-str(data$survey)
+str(data$survey) # 특정컬럼만 보고 싶을 때
 
 # 데이터 특성(최소, 최대, 중위수, 평균, 분위수, 노이즈-NA) 제공
 summary(data)
 
-# 2.1 명목척도 기술 통계량
+# 2.1 명목척도 기술 통계량 # 연산의 의미가 없다(예: 남녀), 식별만 하면 됨
 length(data$gender) # 300
 summary(data$gender)
 table(data$gender) # 각 성별 빈도 수 - outlier(이상치)-> 0, 5
-# 이상치 제거
+# 이상치 제거 # ifelse도 이상치 제거에 쓰임
 data <- subset(data, data$gender==1 | data$gender==2) # 성별 outlier 제거.
 x <- table(data$gender) # 성별에 대한 빈도 수 저장.
 x
@@ -107,7 +109,7 @@ x11()
 barplot(x) # 범주형(명목/서열 척도) 시각화 -> 막대차트
 
 # 구성비율 계산
-prop.table(x) # 비율계산: 0 < x < 1 사이의 값
+prop.table(x) # 비율계산: 0 < x < 1 사이의 값 # prop.table는 그냥 이름이다
 #        1         2
 #0.5824916 0.4175084
 
