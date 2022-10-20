@@ -90,7 +90,7 @@ data <- textConnection(
       5               61
   ")
 class(data)
-x <- read.table(data, header = T)
+x <- read.table(data, header = T) # dataFrame 형태로 변환
 x # 스포츠음료종류   관측도수
 str(x)
 
@@ -114,6 +114,9 @@ x <- data$level2 # 부모의 학력수준
 y <- data$pass2  # 자녀의 대학 진학 여부
 
 CrossTable(x, y, chisq = T)
+# Pearson's Chi-squared test 
+# ------------------------------------------------------------
+# Chi^2 =  2.766951     d.f. =  2     p =  0.2507057 
 
 
 #  (2) 동질성 검정
@@ -165,18 +168,9 @@ CrossTable(data$method2, data$survey2, chisq = T)
 # 5. 동질성 검정 - 모수 특성치에 대한 추론 검정
 chisq.test(data$method2, data$survey2)
 # data:  data$method2 and data$survey2
-# X-squared = 6.5447, df = 8, p-value = 0.5865
+# X-squared = 6.5447, df = 8, p-value = 0.5865 # (방법3-1 * 만족도5-1) = df = 8
 
 
 # 6. 동질성 검정 해석
 # p-value = 0.5865 > α(알파: 0.05) : 귀무가설 채택
 # 교육방법에 따라 만족도에 차이가 없다.
-
-
-
-
-
-
-
-
-
