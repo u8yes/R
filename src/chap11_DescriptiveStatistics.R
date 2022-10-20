@@ -148,21 +148,24 @@ x1 <- table(survey) # 빈도 수
 x1
 
 hist(survey) # 등간척도 시각화
-pie(x1)
+pie(x1) # 이산형, 연속형 아무때나 사용가능하다.
 
-# 2.4 비율척도 기술 통계량
+# 2.4 비율척도 기술 통계량 # 연산의 의미가 있다. # 연속형
 
 # 생활비(cost) 변수 대상 요약 통계량 구하기
 length(data$cost) # 297
-summary(data$cost) # 요약통계량-의미있음(mean)-8.784, 중위수-3.000
+summary(data$cost) # 요약통계량-의미있음(mean)-8.784, 중위수-3.000 # 이상치가 너무 큼
 
 plot(data$cost)
 
 # 데이터 정제(이상치 제거)
-data <- subset(data, data$cost >= 2 & data$cost <= 10) # 총점기준
+data <- subset(data, data$cost >= 2 & data$cost <= 10) # 총점기준 # 실무자들을 통해 확인하는 것이 좋다 # 분석가들이 실무자 수준으로 공부를 해야한다.
+head(data)
 data
 
-plot(data$cost)
+summary(data$cost)
+
+plot(data$cost) # 연속형 시각화
 x <- data$cost
 mean(x) # 5.354032
 
@@ -172,8 +175,8 @@ median(x) # 5.4
 #  (1) 대표값 구하기
 
 # 생활비(cost) 변수 대상 대표값 구하기
-mean(x)
-median(x)
+mean(x) # 평균
+median(x) # 중위수
 sort(x) # 오름차순
 sort(x, decreasing=T) # 내림차순
 
@@ -195,7 +198,7 @@ x.m
 class(x.m) # [1] "matrix"
 str(x.m)
 which(x.m[1, ] == 18) # 1행 전체를 대상으로 18값 찾기.
-# 5
+# 5번째 값이 18, 19번째 있는 값이 18
 # 19 : index
 
 x.df <- as.data.frame(x.m)
@@ -213,7 +216,7 @@ var(x) # 분산, [1] 1.296826
 sd(x)  # 표준편차, [1] 1.138783
 
 # 분산 -> 표준편차
-sqrt(var(x))
+sqrt(var(x)) # root 씌우기
 
 # 표준편차 -> 분산
 sd(x) ** 2
@@ -243,7 +246,7 @@ library(moments)
 cost <- data$cost
 cost
 
-# 왜도 - 평균을 중심으로 기울어진 정도.
+# 왜도 - 평균을 중심으로 기울어진 정도. # 왜도가 음수이면 평균이 양수로
 skewness(cost) # [1] -0.297234
 
 
@@ -269,7 +272,7 @@ curve(dnorm(x, mean(cost), sd(cost)), col='red', add = T)
 # attach() / detach() 함수로 기술 통계량 구하기
 # - 기존 선언 변수와 컬럼의 이름이 중복시 기존 변수가 global 변수로 잡힘.
 search()
-attach(iris)
+attach(iris) # search에 포함시키게 됨 # iris.을 붙이지 않아도 됨. # iris가 글로벌 변수로 잡히게 됨
 search()
 length(Sepal.Width)
 summary(Sepal.Width) # 요약 통계량 - 의미있음(mean)
@@ -344,9 +347,9 @@ data$resident2[data$resident==5] <- "시구군"
 
 freq(data$resident2)
 #     특별시 광역시 시구군   NA
-#      110     87     34     17    : 빈도수
-# %    44.4   35.1   13.7    6.9
-# %!NA 47.6   37.7   14.7          : 비율
+#      131  101     44     21         : 빈도수
+# %    44.1  34     14.8   7.1    
+# %!NA 47.5  36.6   15.9              : 비율
 
 
 # 2) 성별 변수 리코딩과 비율 계산
@@ -354,10 +357,10 @@ data$gender2[data$gender==1] <- "남자"
 data$gender2[data$gender==2] <- "여자"
 
 freq(data$gender2)
-#     남자 여자  NA
-#     146  102    0
-#%    58.9 41.1   0
-#%!NA 58.9 41.1
+#      남자 여자   NA
+#      173  124     0
+# %    58.2 41.8    0 
+# %!NA 58.2 41.8 
 
 
 # 3) 나이 변수 리코딩과 비율 계산
