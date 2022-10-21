@@ -149,7 +149,7 @@ cor(subject_factor_df)
 install.packages('memisc') # spss tool 포맷 파일 읽어오기
 library(memisc)
 #setwd("D:/heaven_dev/workspaces/R/data/")
-data.spss <- as.data.set(spss.system.file('D:/heaven_dev/workspaces/R/data/drinking_water.sav', , encoded = 'utf-8'))
+data.spss <- as.data.set(spss.system.file('D:/heaven_dev/workspaces/R/data/drinking_water.sav', encoded = 'utf-8'))
 data.spss
 View(data.spss)
 
