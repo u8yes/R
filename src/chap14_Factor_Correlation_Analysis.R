@@ -56,15 +56,15 @@ cor(subject)
 
 # (1) 주성분분석의 가정에 의해서 2개 요인으로 분석
 
-result <- factanal(subject, factors = 2, rotation = "varimax")
-result # p-value is 0.0232  < 0.05 # 요인수가 부족.
+result <- factanal(subject, factors = 2, rotation = "varimax") # 6개 데이터를 2개의 factor로 축약해서 결과를 요인분석
+result # p-value is 0.0232  < 0.05 # 요인수가 부족. # 95% 안에 들어오지 못하기 때문에 2개로는 부족하다. 0.05보다 작기 때문에 기각 되는 것이다.
 
 # (2) 고유값으로 가정한 3개 요인으로 분석
 result <- factanal(subject, factors = 3, rotation = "varimax")
 result
 result <- factanal(subject, factors = 3, # 요인 개수 지정
                    rotation = "varimax", # 회전방법 지정("varimax", "promax", "none")
-                   scores="regression") # 요인점수 계산 방법
+                   scores="regression") # 요인점수 계산 방법 # 4개는 최적이 아니다.
 result
 # Uniquenesses: 0.5이하면 유효.
 
@@ -73,11 +73,11 @@ names(result)
 result$loadings
 
 # (3) 다양한 방법으로 요인적재량 보기
-print(result, digits = 2, cutoff=0.5)
-print(result$loadings, cutoff=0) # display every loadings
+print(result, digits = 2, cutoff=0.5) # cutoff 차단
+print(result$loadings, cutoff=0) # display every loadings # cutoff=0 감추어진 적재량까지 보여줘
 
 # 요인점수
-#  - 관측치의 동작을 살펴보는데 사용되며, 상관분석이나 회귀분석의 독립변수로 사용.
+#  - 관측치의 동작을 살펴보는데 사용되며, 상관분석이나 회귀분석의 독립변수로 사용. # 몇 개로 축약할 건지 결정함
 #  - 각 변수(표준화값)와 요인 간의 관계(요인부하량)를 통해서 구해진 점수.
 
 result$scores
@@ -131,7 +131,7 @@ app <- data.frame(subject$s5, subject$s6) # 응용과학
 soc <- data.frame(subject$s3, subject$s4) # 사회과학
 net <- data.frame(subject$s1, subject$s2) # 자연과학
 
-# (2) 산술평균 계산 - 3개의 파생변수 생성:가독성과 설득력이 높다.
+# (2) (산술)평균 계산 - 3개의 파생변수 생성:가독성과 설득력이 높다.
 app_science <- round( (app$subject.s5 + app$subject.s6) / ncol(app), 2)
 soc_science <- round( (soc$subject.s3 + soc$subject.s4) / ncol(soc), 2)
 net_science <- round( (net$subject.s1 + net$subject.s2) / ncol(net), 2)
@@ -148,8 +148,8 @@ cor(subject_factor_df)
 # (1) 데이터 가져오기
 install.packages('memisc') # spss tool 포맷 파일 읽어오기
 library(memisc)
-#setwd("C:/workspaces/Rwork/src/data/")
-data.spss <- as.data.set(spss.system.file('C:/workspaces/Rwork/src/data/drinking_water.sav', , encoded = 'utf-8'))
+#setwd("D:/heaven_dev/workspaces/R/data/")
+data.spss <- as.data.set(spss.system.file('D:/heaven_dev/workspaces/R/data/drinking_water.sav', , encoded = 'utf-8'))
 data.spss
 View(data.spss)
 
@@ -205,7 +205,7 @@ cor(drinking_water_factor_df)
 # 2.2 상관관계 분석 수행
 
 # [실습] 기술 통계량 구하기
-result <- read.csv("C:/workspaces/Rwork/src/data/product.csv", header=TRUE)
+result <- read.csv("D:/heaven_dev/workspaces/R/data/product.csv", header=TRUE)
 View(result)
 head(result) # 친밀도 적절성 만족도(등간척도 - 5점 척도)
 
