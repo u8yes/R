@@ -162,7 +162,7 @@ View(drinking_water_df)
 
 # (3)  요인수를 3개로 지정하여 요인분석 수행
 result2 <- factanal(drinking_water_df, factors = 3, rotation = "varimax",
-                    scores = "regression")
+                    scores = "regression") # regression 회귀(연속 변수에 대한 데이터 처리) 
 result2
 print(result2, cutoff=0.5)
 
@@ -170,7 +170,7 @@ print(result2, cutoff=0.5)
 # [실습] 요인별 변수 묶기
 
 # 1)  q4 칼럼 제외하여 데이터프레임 생성
-dw_df <- drinking_water_df[-4]
+dw_df <- drinking_water_df[-4] #제외시킴
 str(dw_df)
 dim(dw_df) # [1] 380  10
 cor(dw_df)
@@ -186,7 +186,7 @@ c <- data.frame(dw_df$q1, dw_df$q2, dw_df$q3)
 # 제품적절성 저장 데이터프레임
 p <- data.frame(dw_df$q5, dw_df$q6, dw_df$q7)
 
-# 3) 요인별 산술평균 계산
+# 3) 요인별 (산술)평균 계산
 satisfaction <- round( (s$dw_df.q8 + s$dw_df.q9 + s$dw_df.q10 + s$dw_df.q11) / ncol(s), 2)
 closeness <- round( (c$dw_df.q1 + c$dw_df.q2 + c$dw_df.q3) / ncol(c), 2)
 pertinence <- round( (p$dw_df.q5 + p$dw_df.q6 + p$dw_df.q7) / ncol(p), 2)
@@ -215,12 +215,13 @@ summary(result) # 요약통계량
 sd(result$제품_친밀도); sd(result$제품_적절성); sd(result$제품_만족도)
 
 
-# [실습] 상관계수(coefficient of correlation) : 두 변량 X,Y 사이의 상관관계 정도를 나타내는 수치(계수)
+# [실습] 상관계수(coefficient of correlation) : 두 변량 X,Y 사이의 상관관계 정도를 나타내는 수치(계수) # 0.4 이상이 되면 상관도를 높게 봄.
 cor(result$제품_친밀도, result$제품_적절성) # 0.4992086 -> 다소 높은 양의 상관관계
 cor(result$제품_친밀도, result$제품_만족도) # 0.467145 -> 다소 높은 양의 상관관계
+cor(result)
 
 # [실습] 전체 변수 간 상관계수 보기
-cor(result, method="pearson")
+cor(result, method="pearson") # pearson - 데이터를 조사하면서 하나의 대표값을 찾아내는 개념
 
 # [실습] 방향성 있는 색상으로 표현
 install.packages("corrgram")
@@ -238,4 +239,3 @@ chart.Correlation(result, histogram=, pch="+")
 
 # [실습]  spearman : 서열척도 대상 상관계수
 cor(result, method="spearman")
-
