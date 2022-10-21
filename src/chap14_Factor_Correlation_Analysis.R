@@ -40,8 +40,8 @@ summary(pc)
 x11()
 plot(pc)
 
-# 고유값으로 요인 수 분석
-en <- eigen(cor(subject)) # $values : 고유값, $vectors : 고유벡터
+# 고유값으로 요인 수 분석 # 2차적으로 검증을 할 수 있다고 볼 수 있다.
+en <- eigen(cor(subject)) # $values : 고유값, $vectors : 고유벡터 # cor() 상관분석 알고리즘 # eigen() 고유값
 names(en) # "values"  "vectors"
 
 en$values # $values : 고유값(스칼라) 보기
