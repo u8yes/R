@@ -20,7 +20,7 @@ str(AirPassengers) # Time-Series [1:144] from 1949 to 1961:
 
 # 단계2:차분(Differencing) 적용-현재 시점에서 이전 시점의 자료를 빼는 연산으로 평균을 정상화하는데 이용 : 평균 정상화.
 x11()
-ts.plot(AirPassengers)
+ts.plot(AirPassengers) # TimeSeries.plot = ts.plot
 
 par(mfrow=c(1,2))
 log <- diff(AirPassengers) # 차분 수행
@@ -36,7 +36,7 @@ plot(log) # 분산 정상화
 
 # 단일 시계열 자료 시각화
 
-# 단계1: WWWusage 데이터 셋 가져오기 - R에서 기본 제공 데이터 셋으로 인터넷 사용 시간을 분 단위로 측정한 100개 vector로 구성된 시계열 자료.
+# 단계1: WWWusage 데이터 셋 가져오기 - R에서 기본 제공 데이터 셋으로 인터넷 사용 시간을 분 단위로 측정한 100개 vector(1차원배열)로 구성된 시계열 자료.
 data("WWWusage")
 str(WWWusage) # Time-Series [1:100] from 1 to 100:
 WWWusage
@@ -66,7 +66,7 @@ X11()
 plot(EuStock$DAX[1:1000], type = "l", col="red") # 선 그래프 시각화
 
 # 단계4 : 다중 시계열 데이터 추세선
-plot.ts(cbind(EuStock$DAX[1:1000], EuStock$SMI[1:1000]), main="주가지수 추세선")
+plot.ts(cbind(EuStock$DAX[1:1800], EuStock$SMI[1:1800]), main="주가지수 추세선")
 
 
 
@@ -110,17 +110,18 @@ plot(tsdata - m$seasonal - m$trend) # 불규칙 요인만 출력.
 ##################################
 # 자기상관함수/ 부분자기상관함수
 ##################################
-# 자기상관함수(Auto Correlation Function)
-# 부분자기상관함수(Partial Auto Correlation Function)
+# 자기상관함수(Auto Correlation Function) # ACF
+# 부분자기상관함수(Partial Auto Correlation Function) # PACF
 
 # 자기상관성: 자기 상관계수가 유의미한가를 나타내는 특성.
 # 자기상관계수: 시계열 자료에서 시차(lag)를 일정하게 주는 경우 얻어지는 상관 계수.
+# 시차(lag) - 일정 주기를 가짐
 
 # 단계1 : 시계열자료 생성
-input <- c(3180,3000,3200,3100,3300,3200,3400,3550,3200,3400,3300,3700)
+input <- c(3180,3000,3200,3100,3300,3200,3400,3550,3200,3400,3300,3700) # 의미가 없다 # 데이터가 드러나게 할 수 있게 부각시키기 위해 임의로 만든 숫자
 length(input) # 12
 
-tsdata <- ts(input, start = c(2015, 2), frequency = 12) # Time Series
+tsdata <- ts(input, start = c(2015, 2), frequency = 12) # Time Series # 2015년 2월 ~ 2016년 1월까지의 의미를 가지는 데이터셋, 주기는 12
 tsdata
 
 # 단계2 : 자기상관함수 시각화
@@ -152,7 +153,7 @@ plot(tsdata, type="l", col="red")
 acf(na.omit(tsdata), main="자기상관함수", col="red")
 
 # 단계4 : 차분 시각화
-plot(diff(tsdata, differences=1))
+plot(diff(tsdata, differences=1)) # 1 주기를 가지고 출력 # 평균 0을 기준으로 낮아지고 올라가고
 
 
 
@@ -184,56 +185,57 @@ library(TTR)
 # 단계3 : 이동평균법으로 평활 및 시각화
 par(mfrow=c(2,2))
 plot(tsdata, main="원 시계열 자료") # 시계열 자료 시각화
-plot(SMA(tsdata, n=1), main="1년 단위 이동평균법으로 평활")
+plot(SMA(tsdata, n=1), main="1년 단위 이동평균법으로 평활") # Simple Moving Average
 plot(SMA(tsdata, n=2), main="2년 단위 이동평균법으로 평활")
 plot(SMA(tsdata, n=3), main="3년 단위 이동평균법으로 평활")
-par(mfrow=c(1,1))
+
+par(mfrow=c(1,1)) # 1행 1열로 변경했을 뿐.
 
 ##################################
 ## ARIMA 모형 시계열 예측
 ##################################
 
-## 정상성시계열의 비계절형
+## 정상성시계열의 비계절형 # 비계절성은 일정한 주기를 가지고 있지는 않다.
 
 # 단계1: 시계열자료 특성분석
 # (1) 데이터 준비
 input <- c(3180,3000,3200,3100,3300,3200,3400,3550,3200,3400,3300,3700)
 
 # (2) 시계열 객체 생성(12개월:2015년 2월 ~ 2016년 1월)
-tsdata <- ts(input, start = c(2015, 2), frequency = 12)
+tsdata <- ts(input, start = c(2015, 2), frequency = 12) # Time Series = ts
 tsdata
 
 # (3) 추세선 시각화(정상성시계열 vs 비정상성시계열)
 x11()
-plot(tsdata, type="l", col='red')
+plot(tsdata, type="l", col='red') # type='l'ine
 
 
-# 단계2:정상성시계열 변환
+# 단계2:정상성시계열 변환 
 par(mfrow=c(1,2))
 ts.plot(tsdata)
-diff <- diff(tsdata)
+diff <- diff(tsdata) # 차분
 plot(diff)
 
 # 단계3: 모형 식별과 추정
 install.packages('forecast')
 library(forecast)
 
-arima <- auto.arima(tsdata) # 시계열 데이터 이용.
+arima <- auto.arima(tsdata) # 시계열 데이터 이용. # ARIMA 모형을 통해 적합한 모델을 알려줌
 arima
 # ARIMA(1,1,0) - 1번 차분한 결과가 정상성시계열의 AR(1) 모형으로 식별.
 
 
-# 단계4: 모형 생성
-model <- arima(tsdata, order=c(1,1,0))
-model
+# 단계4: 모형 생성(모델을 찾음)
+model <- arima(tsdata, order=c(1,1,0)) # order에 ARIMA 결과를 그대로 써주면 됨.
+model # model은 우리가 원하는 모델이다.
 
 
 # 단계5: 모형 진단(모형 타당성 검정)
-# (1) 자기상관함수에 의한 모형 진단
-tsdiag(model)
+# (1) 자기상관함수(AutoCorrelationFunction)에 의한 모형 진단 # 일정 간격을 찾아가는 것.
+tsdiag(model) # TimeSeriesDialog # p-value값이 0 이상으로 분포하면 정상값이다.
 
 # (2) Box-Ljung에 의한 잔차항 모형 진단
-Box.test(model$residuals, lag = 1, type = "Ljung")
+Box.test(model$residuals, lag = 1, type = "Ljung") # 시차값을 지정해줌.
 # p-value = 0.7252 > 0.05 : 결론) 모형이 통계적으로 적절하다.
 
 
@@ -248,11 +250,11 @@ model2 <- forecast(model, h = 6) # 향후 6개월 예측치 시각화
 plot(model2)
 
 
-## 정상성시계열의 계절형
+## 정상성시계열의 계절형 # 계절형은 주기적이다. 데이터가 짧건 길건 상관없이 주기성을 가지고 있다.
 
 # 단계1 : 시계열자료 특성분석
 
-# (1) 데이터 준비
+# (1) 데이터 준비 # 추위에 기반하는 특징을 가지는 주기를 가지고 있다. 반드시 똑같은 개념은 아니다.
 data <- c(55,56,45,43,69,75,58,59,66,64,62,65,
           55,49,67,55,71,78,61,65,69,53,70,75,
           56,56,65,55,68,80,65,67,77,69,79,82,
