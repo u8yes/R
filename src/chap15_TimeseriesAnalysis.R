@@ -264,13 +264,13 @@ length(data)# 48
 # (2) 시계열자료 생성
 tsdata <- ts(data, start=c(2016, 1),frequency=12)
 
-#tsdata <- AirPassengers # 실제 data 적용.
+#tsdata <- AirPassengers 탑승객 수 월 데이터 제공 # 실제 data 적용.
 tsdata
 head(tsdata)
 tail(tsdata)
 
 # (3) 시계열요소분해 시각화
-ts_feature <- stl(tsdata, s.window="periodic")
+ts_feature <- stl(tsdata, s.window="periodic") # or Decompose함수를 사용
 plot(ts_feature)
 
 # 단계2 : 정상성시계열 변환
@@ -281,8 +281,9 @@ plot(diff) # 차분 시각화
 
 # 단계3 : 모형 식별과 추정
 library(forecast)
-ts_model2 <- auto.arima(tsdata)
+ts_model2 <- auto.arima(tsdata) # 데이터에 대한 모형을 식별과 추정하도록 요청해주면 됨
 ts_model2 # ARIMA(0,1,1)(1,1,0)[12] / ARIMA(2,1,1)(0,1,0)[12]
+# 앞에는 ARIMA(0,1,1) 모형, 뒤에는 ARIMA(1,1,0) 계절성에 대해 나타내줌. 계절성일 때만 나타내줌.
 
 # 단계4 : 모형 생성
 model <- arima(tsdata, c(0,1,1), seasonal = list(order = c(1,1,0)))
