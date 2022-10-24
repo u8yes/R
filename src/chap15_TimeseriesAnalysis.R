@@ -296,6 +296,7 @@ tsdiag(model)
 
 # (2)Box-Ljung에 의한 잔차항 모형 진단
 Box.test(model$residuals, lag=1, type = "Ljung") # p-value = 0.5618 / p-value = 0.9879
+# 0.05 이상이면 유의미
 
 # 단계6 : 미래 예측
 par(mfrow=c(1,2))
