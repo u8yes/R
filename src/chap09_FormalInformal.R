@@ -126,7 +126,7 @@ remotes::install_github('haven-jeon/KoNLP', upgrade = "never", INSTALL_opts=c("-
 # https://jar-download.com/artifacts/org.scala-lang/scala-library/2.11.8/source-code : scala-library-2.11.8.jar 다운로드
 # "C:/Program Files/R/R-설치버전/library/KoNLP/java/ 폴더에 복사(scala-library-2.11.8.jar)"
 
-library(KoNLP)
+library(KoNLP) # Korean Natural Language Process
 
 # KoNLP 테스트 예제
 sentence <- '아버지가 방에 스르륵 들어가신다.'
@@ -138,15 +138,17 @@ library(wordcloud); library(tm)
 # (2) 텍스트 자료 가져오기
 facebook <- file("facebook_bigdata.txt", encoding = "UTF-8")
 facebook
-facebook_data <- readLines(facebook) # 줄 단위 데이터 생성
+facebook_data <- readLines(facebook) # 줄 단위 데이터 생성 # 패러그래프 단위로 끊어줌
 head(facebook_data) # 앞부분 6줄 보기 - 줄 단위 데이터 생성
 str(facebook_data) # chr [1:76]
 close(facebook)
 
-# (3) 세종 사전에 신규 단어 추가
+# (3) 세종 사전에 신규 단어 추가(term에 추가) 
+# ncn - 명사형을 표현해주는 식별자
 userDic <- data.frame(term=c("R 프로그래밍","페이스북","소셜네트워크","얼죽아"), tag='ncn')
 
-# - 신규 단어 사전 추가 함수
+# - 신규 단어 사전 추가 함수 # sejong단어에 신규 단어를 추가하고 싶을 때
+# 시간이 좀 소요됨.
 buildDictionary(ext_dic = 'sejong', user_dic = userDic)
 
 # (4) 단어 추출을 위한 사용자 정의 함수
@@ -175,19 +177,21 @@ myCorpus
 
 #  단계2: 데이터 전처리
 myCorpusPrepro <- tm_map(myCorpus, removePunctuation) # 문장부호 제거
-myCorpusPrepro <- tm_map(myCorpusPrepro,removeNumbers) # 수치 제거
-myCorpusPrepro <- tm_map(myCorpusPrepro,tolower) # 소문자 변경
-myCorpusPrepro <- tm_map(myCorpusPrepro,removeWords, stopwords('english')) # 불용어 제거(for, very, and, of, are)
+# 다시 코퍼스 형태로 담아줌 -> myCorpusPrepro 
+myCorpusPrepro <- tm_map(myCorpusPrepro,removeNumbers) # 수치(숫자) 제거
+myCorpusPrepro <- tm_map(myCorpusPrepro,tolower) # 알파벳을 소문자 변경
+myCorpusPrepro <- tm_map(myCorpusPrepro,removeWords, stopwords('english')) # 불용어 제거(for, very, and, of, are) -> stopwords 
 # 전처리 결과 확인
-inspect(myCorpusPrepro[1:5])
-myCorpusPrepro[1:5]
+inspect(myCorpusPrepro[1:5]) # 말뭉치 결과를 보기 수행
+myCorpusPrepro[1:5] # 정보
 
 # (6) 단어 선별(단어 2음절 ~ 8음절 사이 단어 선택)하기.
 
 #  - Corpus 객체를 대상으로 TermDocumentMatrix() 함수를 이용하여 분석에 필요한 단어 선별하고 단어/문서 행렬을 만든다.
 #  - 전처리된 단어집에서 단어 선별(단어 2음절 ~ 8음절 사이 단어)하기.
 #  - 한글 1음절은 2byte에 저장(2음절=4byte)
-myCorpusPrepro_term <- TermDocumentMatrix(myCorpusPrepro, control=list(wordLengths=c(4,16))) # 텍스트를 숫자로 표현하는 대표적인 방법.
+myCorpusPrepro_term <- TermDocumentMatrix(myCorpusPrepro, control=list(wordLengths=c(4,16))) # 텍스트를 숫자로 표현하는 대표적인 방법. 
+# (2음절=4byte)(8음절=16byte) # TermDocumentMatrix는 클래스로 정의돼있는 객체
 myCorpusPrepro_term # Corpus 객체 정보
 
 # matrix 자료구조를 data.frame 자료 구조로 변경
@@ -250,12 +254,12 @@ wordcloud(word.df$word, word.df$freq, scale = c(5,1),
 txt <- readLines("hiphop.txt") # "UTF-8"로 변경.
 head(txt)
 
-# 특수문자 제거
+# \\W(대문자)는 특수문자 제거
 txt <- str_replace_all(txt, "\\W", " ") # \W : 대문자 주의.
 head(txt)
 
 # 가사에서 명사 추출
-nouns <- extractNoun(txt)
+nouns <- extractNoun(txt) # KoNLP제공 extractNoun()
 nouns
 
 # 추출한 명사 list를 문자열 벡터로 변환, 단어별 빈도표 생성
@@ -264,6 +268,7 @@ head(wordcount); tail(wordcount)
 
 # 데이터프레임으로 변환
 df_word <- as.data.frame(wordcount, stringsAsFactors = F)
+# stringsAsFactors -> 요인형을 범주형으로 바꾸고 빈도수까지 나타나게 만들어줌. Default가 F로 돼있음.
 tail(df_word)
 
 # 변수명 수정
@@ -296,7 +301,7 @@ wordcloud(words = df_word$word,
           colors = pal)
 
 
-## 2.2 연관어 분석
+## 2.2 연관어 분석(= 장바구니 분석)
 #   : 연관규칙(Association Rule)을 적용하여 특정 단어와 연관성이 있는 단어들을 선별하여 네트워크 형태로 시각화하는 과정.
 
 # 한글 처리를 위한 패키지 설치
@@ -310,6 +315,7 @@ marketing2
 close(marketing)
 
 # 2. 줄 단위 단어 추출
+library(KoNLP)
 lword <- Map(extractNoun, marketing2)
 head(lword)
 length(lword) # 472
@@ -342,7 +348,7 @@ c123_unique_Last <- unique(c123_df[,c("c1","c2","c3")],fromLast=T)
 c123_unique_Last
 '''
 
-lword <- unique(lword) # 공백 block 제거
+lword <- unique(lword) # 공백 block 제거 # 라인 단위로
 length(lword) # 353
 
 lword <- sapply(lword, unique)
@@ -352,13 +358,13 @@ str(lword) # List of 353
 
 # 연관어 분석을 위한 전처리 
 
-# 1) 단어 필터링 함수 정의 - 길이가 2개 이상 4개 이하 사이의 문자 길이로 구성된 단어만 필터링.
+# 1) 단어 필터링 함수 정의 - 길이가 2개 이상 4개 이하 사이의 문자 길이로만으로 구성된 단어만 필터링.
 filter1 <- function(x){
-  nchar(x) >= 2 && nchar(x) <= 4 && is.hangul(x)
+  nchar(x) >= 2 && nchar(x) <= 4 && is.hangul(x) # 한글만을 필터링 하겠다.
 }
 
 filter2 <- function(x){
-  Filter(filter1, x)
+  Filter(filter1, x) # Filter는 참조 자료형
 }
 
 #  2) 줄 단위로 추출된 단어 전처리
@@ -376,21 +382,22 @@ library(arules)
 
 # 2) 트랜잭션 생성
 wordtran <- as(lword, "transactions")
-wordtran
+wordtran # inform을 보여주고 있다.
 # transactions in sparse format with
 # 353 transactions (rows) and
 # 2424 items (columns)
 
 # 3) 교차표 작성: crossTable() -> 교차테이블 함수를 이용.
-wordtable <- crossTable(wordtran)
+wordtable <- crossTable(wordtran) # CrossTable과 다르니 참고할 것
 wordtable
 
 # 4) 단어 간 연관 규칙 산출
 tranrules <- apriori(wordtran,parameter=list(support=0.25, conf=0.05))
 # writing ... [59 rule(s)] done [0.00s].
+# support지지도 25%로, confidence신뢰도 5%로, 향상도
 
 # 5) 연관 규칙 생성 결과 보기
-inspect(tranrules)
+inspect(tranrules) # 쿠퍼스에서도 쓴 inspect, 트랜젝션에서도 볼 수 있음.
 
 # 연관어 시각화
 # 1) 연관 단어 시각화를 위해서 자료 구조 변경
@@ -399,7 +406,8 @@ head(rules, 20)
 class(rules) # "character"
 
 # 2) 문자열로 묶인 연관 단어를 행렬 구조 변경.
-rules <- sapply(rules, strsplit, " ", USE.NAMES = F)
+rules <- sapply(rules, strsplit, " ", USE.NAMES = F) 
+# sapply는 벡터 형식으로 바꿔줌.
 rules
 class(rules) # "list"
 
@@ -431,7 +439,7 @@ plot.igraph(ruleg,vertex.label=V(ruleg)$name,
 #   - 웹을 탐색하는 컴퓨터 프로그램(크롤러)을 이용하여 여러 인터넷 사이트의 웹 페이지 자료를 수집해서 분류하는 과정.
 #   - 또한 크롤러(crawler)란 자동화된 방법으로 월드와이드웹(www)을 탐색하는 컴퓨터 프로그램을 의미.
 
-#  (2) 스크래핑(scraping)
+#  (2) 스크래핑(scraping) # 스크래핑을 웹크롤링에 포함시켜 말하기도 한다.
 #   - 웹사이트의 내용을 가져와 원하는 형태로 가공하는 기술.
 #   - 즉, 웹사이트의 데이터를 수집하는 모든 작업을 의미.
 #   - 결국, 크롤링도 스크래핑 기술의 일종.
@@ -551,6 +559,4 @@ x11()
 wordcloud(df$word, df$freq, min.freq = 2,
           random.order = F, scale = c(4, 0.7),
           rot.per = .1, colors = pal)
-
-
 
