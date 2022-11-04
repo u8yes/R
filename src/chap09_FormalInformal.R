@@ -9,9 +9,8 @@
 # 단계1 : 사용자 로그인과 테이블 생성.
 #  - sqlplus 명령문으로 접속 후 다음의 테이블 생성.
 
-# cmd 창 들어가서 sqlplus로 scott계정 접속해서 sql 작성해주고 create해줌.
-"""
 
+"""
 SQL>
 create table test_table(
   id      varchar2(50) primary key,
@@ -42,15 +41,14 @@ install.packages("RJDBC")
 Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-11.0.16.1')
 library(DBI)
 library(rJava)
-library(RJDBC) # rJava에 의존적이다(rJava 먼저 로딩돼있어야 한다).
+library(RJDBC) # rJava에 의존적이다(rJava 먼저 로딩).
 
 # 3) Oracle 연동
 
 ###  Oracle 11g Ex.
 # driver
-drv <- JDBC("oracle.jdbc.driver.OracleDriver",
-     "C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar") # driver 이름, 경로
-
+drv <- JDBC("oracle.jdbc.driver.OracleDriver", 
+            "C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar")
 
 # db 연동(driver, url, id, pwd)
 conn <- dbConnect(drv,"jdbc:oracle:thin:@//localhost:1521/xe","scott","tiger")
@@ -70,9 +68,10 @@ View(result)
 query <- "select * from test_table order by age desc"
 dbGetQuery(conn, query)
 
-# (4) 레코드 삽입 # dbSendUpdate함수를 이용.
+# (4) 레코드 삽입
 query <- "insert into test_table values('kang', '1234','강감찬', 35)"
 dbSendUpdate(conn, query)
+
 
 # (5) 레코드 수정 : 데이터 '강감찬'의 나이를 40으로 수정.
 query <- "update test_table set age=40 where name='강감찬'"
@@ -101,32 +100,48 @@ dbDisconnect(conn) #DBI
 #    - 또한 단어구름(word cloud) 패키지를 적용하여 분석 결과를 시각화하는 과정도 포함.
 
 # (1) 패키지 설치 및 준비
-#install.packages("KoNLP")
-# - package ‘KoNLP’ is not available... # 한국어가 가능하게 해주는 패키지
-install.packages('https://cran.rstudio.com/bin/windows/contrib/3.6/sessioninfo_1.1.1.zip', repos = NULL)
-install.packages("https://cran.rstudio.com/bin/windows/contrib/3.4/KoNLP_0.80.1.zip",repos = NULL)
-install.packages("https://cran.rstudio.com/bin/windows/contrib/3.6/devtools_2.4.1.zip",repos = NULL)
-# Sejong 설치: KoNLP와 의존성 있는 현재 버전의 한글 사전 Sejong 패키지 설치.
-install.packages("Sejong") # 한글 사전 기반
-install.packages(c("hash","tau","RSQLite","rJava"))
-# install.packages("devtools")
+getwd()
+setwd("C:/workspaces/Rwork/data")
 
-library(Sejong); library(hash); library(tau); library(RSQLite)
-
+install.packages("rJava")
 Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-11.0.16.1')
-library(rJava); library(devtools)
+library(rJava)
+
+# 아래 패키지를 설치 후
+install.packages("multilinguer")
+library(multilinguer)
+
+# 의존성을 설치 한다. 
+install.packages(c('stringr', 'hash', 'tau', 'Sejong', 'RSQLite', 'devtools'), type = "binary")
+
+library(stringr); library(hash); library(tau); 
+library(Sejong); library(RSQLite); library(devtools); 
+
+# Git hub로 설치 한다. 
+install.packages("remotes")
+library(remotes)
+
+remotes::install_github('haven-jeon/KoNLP', upgrade = "never", INSTALL_opts=c("--no-multiarch"), force=TRUE)
+
+# https://jar-download.com/artifacts/org.scala-lang/scala-library/2.11.8/source-code : scala-library-2.11.8.jar 다운로드
+# "C:/Program Files/R/R-설치버전/library/KoNLP/java/ 폴더에 복사(scala-library-2.11.8.jar)"
 
 library(KoNLP)
+
+# KoNLP 테스트 예제
+sentence <- '아버지가 방에 스르륵 들어가신다.'
+extractNoun(sentence)
 
 install.packages(c("wordcloud","tm"))
 library(wordcloud); library(tm)
 
 # (2) 텍스트 자료 가져오기
-facebook <- file("D:/heaven_dev/workspaces/R/data/facebook_bigdata.txt",encoding = "UTF-8")
+facebook <- file("facebook_bigdata.txt", encoding = "UTF-8")
 facebook
 facebook_data <- readLines(facebook) # 줄 단위 데이터 생성
 head(facebook_data) # 앞부분 6줄 보기 - 줄 단위 데이터 생성
 str(facebook_data) # chr [1:76]
+close(facebook)
 
 # (3) 세종 사전에 신규 단어 추가
 userDic <- data.frame(term=c("R 프로그래밍","페이스북","소셜네트워크","얼죽아"), tag='ncn')
@@ -210,6 +225,7 @@ wordResult <- sort(rowSums(myTerm_df), decreasing=T) # 빈도수로 내림차순
 wordResult[1:20]
 
 # (9) 단어 구름(wordcloud) 시각화 - 디자인 적용 전
+x11() # 별도의 창을 띄우는 함수
 myName <- names(wordResult) # 단어 이름 추출
 wordcloud(myName, wordResult) # 단어 구름 시각화
 
@@ -223,7 +239,6 @@ pal <- brewer.pal(12, "Paired") # 12가지 색상 pal
 windowsFonts(malgun=windowsFont("맑은 고딕"))
 
 # (3) 단어 구름 시각화
-x11() # 별도의 창을 띄우는 함수
 wordcloud(word.df$word, word.df$freq, scale = c(5,1),
           min.freq = 3, random.order = F, rot.per = .1,
           colors = pal, family="malgun")
@@ -232,11 +247,8 @@ wordcloud(word.df$word, word.df$freq, scale = c(5,1),
 
 # 예시2) 텍스트 파일 가져오기와 단어 추출하기.
 # 데이터 불러오기
-txt <- readLines("C:/workspaces/Rwork/src/data/hiphop.txt")
+txt <- readLines("hiphop.txt") # "UTF-8"로 변경.
 head(txt)
-
-install.packages("stringr")
-library(stringr)
 
 # 특수문자 제거
 txt <- str_replace_all(txt, "\\W", " ") # \W : 대문자 주의.
@@ -259,7 +271,6 @@ names(df_word) <- c("word", "freq")
 tail(df_word)
 
 # 두 글자 이상 단어 추출
-
 install.packages("dplyr")
 library(dplyr)
 
@@ -274,8 +285,7 @@ top_20
 # 시각화
 pal <- brewer.pal(8, "Dark2") # Dark2 색상 목록에서 8개  색상 추출.
 
-set.seed(1234)
-x11()
+# set.seed(1234)
 wordcloud(words = df_word$word,
           freq = df_word$freq,
           min.freq = 2,
@@ -292,11 +302,12 @@ wordcloud(words = df_word$word,
 # 한글 처리를 위한 패키지 설치
 # - 토픽 분석 참조.
 
+# 텍스트 파일 가져오기와 단어 추출하기 
 # 1. 텍스트 파일 가져오기
-marketing <- file("C:/workspaces/Rwork/src/data/marketing.txt", encoding = "UTF-8")
-marketing
+marketing <- file("marketing.txt", encoding = "UTF-8")
 marketing2 <- readLines(marketing) # 줄 단위 데이터 생성
 marketing2
+close(marketing)
 
 # 2. 줄 단위 단어 추출
 lword <- Map(extractNoun, marketing2)
@@ -310,8 +321,10 @@ View(lword)
 
 c1 <- rep(1:10, each=2)
 c1 # 1  1  2  2  3  3  4  4  5  5  6  6  7  7  8  8  9  9 10 10
+
 c2 <- rep(c(1, 3, 5, 7, 9), each=4)
 c2 # 1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9
+
 c3 <- c(1,1,1,1,3,3,3,3,5,5,6,6,7,7,8,8,9,10,11,12)
 c3 # 1  1  1  1  3  3  3  3  5  5  6  6  7  7  8  8  9 10 11 12
 
@@ -333,12 +346,13 @@ lword <- unique(lword) # 공백 block 제거
 length(lword) # 353
 
 lword <- sapply(lword, unique)
-length(lword)
-View(lword)
+length(lword) # 353
 
 str(lword) # List of 353
 
-# 단어 필터링 함수 정의 - 길이가 2개 이상 4개 이하 사이의 문자 길이로 구성된 단어만 필터링.
+# 연관어 분석을 위한 전처리 
+
+# 1) 단어 필터링 함수 정의 - 길이가 2개 이상 4개 이하 사이의 문자 길이로 구성된 단어만 필터링.
 filter1 <- function(x){
   nchar(x) >= 2 && nchar(x) <= 4 && is.hangul(x)
 }
@@ -365,7 +379,7 @@ wordtran <- as(lword, "transactions")
 wordtran
 # transactions in sparse format with
 # 353 transactions (rows) and
-# 2423 items (columns)
+# 2424 items (columns)
 
 # 3) 교차표 작성: crossTable() -> 교차테이블 함수를 이용.
 wordtable <- crossTable(wordtran)
@@ -399,16 +413,15 @@ install.packages("igraph")
 library(igraph)
 
 # edgelist 보기 - 연관 단어를 정점(Vertex) 형태의 목록 제공
-relueg <- graph.edgelist(rulemat[c(19:100),],directed = F) # [c(1:18)] "{}" 제외
-relueg
+ruleg <- graph.edgelist(rulemat[c(12:59),], directed = F) #[1,]~[11,] "{}" 제외
+ruleg
 
 # edgelist 시각화
 x11()
-plot.igraph(relueg,vertex.label=V(relueg)$name,
+plot.igraph(ruleg,vertex.label=V(ruleg)$name,
             vertex.label.cex=1.2, vertex.label.color='black',
             vertex.size=20, vertex.color='green',
             vertex.frame.color='blue')
-
 
 # 3. 실시간 뉴스 수집과 분석
 
@@ -466,15 +479,14 @@ news_pre <- gsub('\\s+', ' ', news_pre)
 news_pre
 
 # 단계 2: 기사와 관계 없는 'TODAY', '검색어 순위' 등의 내용은 제거
-news_data <- news_pre[1:59]
+news_data <- news_pre[1:32] # 검색수 만큼 변경 
 news_data
 
 
 # 실습: 수집한 자료를 파일로 저장하고 읽기
-setwd("C:/workspaces/Rwork/src/output")
-write.csv(news_data, "news_data.csv", quote = F)
+write.csv(news_data, "C:/workspaces/Rwork/output/news_data.csv", quote = F)
 
-news_data <- read.csv("news_data.csv", header = T, stringsAsFactors = F)
+news_data <- read.csv("C:/workspaces/Rwork/output/news_data.csv", header = T, stringsAsFactors = F)
 str(news_data)
 
 names(news_data) <- c("no", "news_text")
@@ -484,7 +496,7 @@ news_text <- news_data$news_text
 news_text
 
 # 실습: 세종 사전에 단어 추가
-user_dic <- data.frame(term = c("모더나", "삼바", "롤러블폰"), tag = 'ncn')
+user_dic <- data.frame(term = c("이태원역", "탄도미사일", "이태원"), tag = 'ncn')
 buildDictionary(ext_dic = 'sejong', user_dic = user_dic)
 
 # 실습: 단어 추출 사용자 함수 정의하기
@@ -498,15 +510,17 @@ news_nouns
 # 단계 3: 추출 결과 확인
 str(news_nouns)
 
-
 # 실습: 말뭉치 생성과 집계 행렬 만들기
 # 단계 1: 추출된 단어를 이용한 말뭉치(corpus) 생성
 newsCorpus <- Corpus(VectorSource(news_nouns))
 newsCorpus
-
-inspect(newsCorpus[1:5])
+#<<SimpleCorpus>>
+#Metadata:  corpus specific: 1, document level (indexed): 0
+#Content:  documents: 32
+inspect(newsCorpus)
 
 # 단계 2: 단어 vs 문서 집계 행렬 만들기
+# 한글 2~8 음절 단어 대상 단어/문서 집계 행렬 
 TDM <- TermDocumentMatrix(newsCorpus, control = list(wordLengths = c(4, 16)))
 TDM
 
@@ -536,7 +550,7 @@ pal <- brewer.pal(12, "Paired")
 x11()
 wordcloud(df$word, df$freq, min.freq = 2,
           random.order = F, scale = c(4, 0.7),
-          rot.per = .1, colors = pal, family = "malgun")
+          rot.per = .1, colors = pal)
 
 
 
