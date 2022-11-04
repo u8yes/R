@@ -95,15 +95,15 @@ dbDisconnect(conn) #DBI
 
 # - 텍스트 마이닝(Text Mining): 문자로 된 데이터에서 가치 있는 정보를 얻어 내는 분석 기법.
 
-## 2.1 토픽 분석(최근 빈도수를 가지고 분석하는 것.)
+## 2.1 토픽 분석(텍스트 마이닝 분석 - 최근 빈도수를 가지고 분석하는 것.)
 #    - 텍스트 데이터를 대상을 단어를 추출하고, 이를 단어 사전과 비교하여 단어의 출현 빈도수를 분석하는 텍스트 마이닝 분석 과정을 의미.
 #    - 또한 단어구름(word cloud) 패키지를 적용하여 분석 결과를 시각화하는 과정도 포함.
 
 # (1) 패키지 설치 및 준비
 getwd()
-setwd("C:/workspaces/Rwork/data")
+setwd("D:/heaven_dev/workspaces/R/data")
 
-install.packages("rJava")
+install.packages("rJava") # r에서 JAVA가 가능하게 해주는 패키지
 Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-11.0.16.1')
 library(rJava)
 
@@ -112,7 +112,7 @@ install.packages("multilinguer")
 library(multilinguer)
 
 # 의존성을 설치 한다. 
-install.packages(c('stringr', 'hash', 'tau', 'Sejong', 'RSQLite', 'devtools'), type = "binary")
+install.packages(c('stringr', 'hash', 'tau', 'Sejong', 'RSQLite', 'devtools'), type = "binary") # Sejong 사전에서 연동한 후 동작이 되는 패키지(연동 패키지 RSQLite) # c()를 이용해서 한꺼번에 패키지 설치 가능하다.
 
 library(stringr); library(hash); library(tau); 
 library(Sejong); library(RSQLite); library(devtools); 
@@ -484,9 +484,9 @@ news_data
 
 
 # 실습: 수집한 자료를 파일로 저장하고 읽기
-write.csv(news_data, "C:/workspaces/Rwork/output/news_data.csv", quote = F)
+write.csv(news_data, "D:/heaven_dev/workspaces/R/output/news_data.csv", quote = F)
 
-news_data <- read.csv("C:/workspaces/Rwork/output/news_data.csv", header = T, stringsAsFactors = F)
+news_data <- read.csv("D:/heaven_dev/workspaces/R/output/news_data.csv", header = T, stringsAsFactors = F)
 str(news_data)
 
 names(news_data) <- c("no", "news_text")
