@@ -467,25 +467,29 @@ web
 # 실습: HTML 파싱하기
 html <- htmlTreeParse(web, useInternalNodes = T, trim = T, encoding = "utf-8")
 # htmlTreeParse는 XML 패키지 다운로드 한 후에 제공 
-# useInternalNodes - ROOT 노드 찾을 수 있음(HTML 모양들을 찾을 수 있음, 실제모양) 
-rootNode <- xmlRoot(html)
+# useInternalNodes - ROOT 노드 찾을 수 있음(HTML 모양들을 찾을 수 있음, 실제모양) # 리스트로 담아줌
+rootNode <- xmlRoot(html) # xml형태로써 자식 형태로 분해해준다.
 rootNode
 html
 
 # 실습: 태그 자료 수집하기
 news <- xpathSApply(rootNode, "//a[@class = 'link_txt']", xmlValue)
+# a태그, class이름은 link_txt인 것들  
 news
 
 
 # 실습: 자료 전처리하기
 # 단계 1: 자료 전처리 - 수집한 문서를 대상으로 불용어 제거
-news_pre <- gsub("[\r\n\t]", ' ', news)
-news_pre <- gsub('[[:punct:]]', ' ', news_pre)
-news_pre <- gsub('[[:cntrl:]]', ' ', news_pre)
-# news_pre <- gsub('\\d+', ' ', news_pre)   # corona19(covid19) 때문에 숫자 제거 생략
-news_pre <- gsub('[a-z]+', ' ', news_pre)
-news_pre <- gsub('[A-Z]+', ' ', news_pre)
-news_pre <- gsub('\\s+', ' ', news_pre)
+news_pre <- gsub("[\r\n\t]", ' ', news) 
+# r에서 제공해주는 gsub 
+# 이스케이프 시퀀스 - (윈도우)\r=줄바꿈 후 앞으로 당겨주기 \n=줄바꿈 \t=tab
+# ' '로 대체해라
+news_pre <- gsub('[[:punct:]]', ' ', news_pre) # 문장 부호를 ' '로 변경하기
+news_pre <- gsub('[[:cntrl:]]', ' ', news_pre) # 특수문자를 ' '로 변경하기
+# news_pre <- gsub('\\d+', ' ', news_pre)   # 숫자는 \\d이다. # corona19(covid19) 때문에 숫자 제거 생략 
+news_pre <- gsub('[a-z]+', ' ', news_pre) # 소문자를 ' '로 변경하기
+news_pre <- gsub('[A-Z]+', ' ', news_pre) # 대문자를 ' '로 변경하기
+news_pre <- gsub('\\s+', ' ', news_pre) # \\s+ 는 여백이 2개 이상있을 때 하나의 ' ' 여백으로 변경
 
 news_pre
 
@@ -507,12 +511,15 @@ news_text <- news_data$news_text
 news_text
 
 # 실습: 세종 사전에 단어 추가
+library(stringr)
+library(KoNLP)
 user_dic <- data.frame(term = c("이태원역", "탄도미사일", "이태원"), tag = 'ncn')
-buildDictionary(ext_dic = 'sejong', user_dic = user_dic)
+buildDictionary(ext_dic = 'sejong', user_dic = user_dic) # sejong 사전에 단어 추가하는 함수 buildDictionary()
 
 # 실습: 단어 추출 사용자 함수 정의하기
 # 단계 1: 사용자 정의 함수 작성
-exNouns <- function(x) { paste(extractNoun(x), collapse = " ")}
+exNouns <- function(x) { paste(extractNoun(x), collapse = " ")} 
+# extractNoun 명사 추출
 
 # 단계 2: exNouns()  함수를 이용하어 단어 추출
 news_nouns <- sapply(news_text, exNouns)
@@ -523,16 +530,18 @@ str(news_nouns)
 
 # 실습: 말뭉치 생성과 집계 행렬 만들기
 # 단계 1: 추출된 단어를 이용한 말뭉치(corpus) 생성
+library(tm)
 newsCorpus <- Corpus(VectorSource(news_nouns))
-newsCorpus
+newsCorpus 
 #<<SimpleCorpus>>
 #Metadata:  corpus specific: 1, document level (indexed): 0
-#Content:  documents: 32
+#Content:  documents: 32 # 32개의 말뭉치
 inspect(newsCorpus)
 
 # 단계 2: 단어 vs 문서 집계 행렬 만들기
 # 한글 2~8 음절 단어 대상 단어/문서 집계 행렬 
 TDM <- TermDocumentMatrix(newsCorpus, control = list(wordLengths = c(4, 16)))
+# 2음절미만, 8음절초과 제거
 TDM
 
 # 단계 3: matrix 자료구조를 data.frame 자료구조로 변경
@@ -547,7 +556,7 @@ wordResult[1:10]
 
 # 실습: 단어 구름 생성
 # 단계 1: 패키지 로딩과 단어 이름 추출
-library(wordcloud)
+library(wordcloud) # EDA를 대표적으로 시각 표현해줌
 myNames <- names(wordResult)
 myNames
 
@@ -559,7 +568,7 @@ head(df)
 # 단계 3: 단어 구름 생성
 pal <- brewer.pal(12, "Paired")
 x11()
-wordcloud(df$word, df$freq, min.freq = 2,
+wordcloud(df$word, df$freq, min.freq = 1,
           random.order = F, scale = c(4, 0.7),
           rot.per = .1, colors = pal)
-
+# min.freq = 1 #1번 언급된 것
