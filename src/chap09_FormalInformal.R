@@ -461,12 +461,15 @@ library(XML)
 
 # 실습: 웹 문서 요청
 url <- "https://news.daum.net"
-web <- GET(url)
+web <- GET(url) # 기본으로 제공되는 패키지
 web
 
 # 실습: HTML 파싱하기
 html <- htmlTreeParse(web, useInternalNodes = T, trim = T, encoding = "utf-8")
+# htmlTreeParse는 XML 패키지 다운로드 한 후에 제공 
+# useInternalNodes - ROOT 노드 찾을 수 있음(HTML 모양들을 찾을 수 있음, 실제모양) 
 rootNode <- xmlRoot(html)
+rootNode
 html
 
 # 실습: 태그 자료 수집하기
